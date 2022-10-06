@@ -1,0 +1,9 @@
+.base-container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+
+  &__children {
+    width: 100%;
+  }
+}
