@@ -10,7 +10,7 @@ import useAxios from '../../Hooks/useAxios';
 
 const AddUser = () => {
   const { token } = useContext(AuthContext);
-  
+
   const axios = useAxios(token);
   const history = useNavigate();
 
@@ -27,7 +27,7 @@ const AddUser = () => {
     <Form className='login__card__form' onSubmit={onSubmit}>
       <div>
         <h3> Login informations: </h3>
-        <LabeledInput required className='login__card__form__input' label="Email" name="username" type="email" /> 
+        <LabeledInput required className='login__card__form__input' label="Email" name="username" type="email" />
         <LabeledInput required className='login__card__form__input' name="password" label='Heslo' type="password" />
       </div>
       <div>

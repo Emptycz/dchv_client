@@ -37,7 +37,7 @@ const Login = () => {
       <Card className='login__card' variant='outlined'>
         <h1> Přihlášení do systému </h1>
         <Form className='login__card__form' onSubmit={(e) => onSubmit(e)}>
-          <LabeledInput required className='login__card__form__input' label="Email" variant="outlined" name="username" type="email" /> 
+          <LabeledInput required className='login__card__form__input' label="Email" variant="outlined" name="username" type="email" />
           <LabeledInput required className='login__card__form__input' name="password" variant="outlined" label='Heslo' type="password" />
           {!alert ? '' : (
             <Alert className='login__card__form__alert' severity='error'>

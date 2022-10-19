@@ -8,6 +8,7 @@ import Users from '../Pages/Users/Users';
 import AddUser from '../Pages/AddUser/AddUser';
 import Profile from '../Pages/Profile/Profile';
 import User from '../Pages/User/User';
+import Record from '../Pages/Record/Record';
 
 const Paths = () => {
   return (
@@ -16,6 +17,7 @@ const Paths = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/records" element={<Records />} />
       <Route path="/records/add" element={<AddRecord />} />
+      <Route path="/record/:recordId" element={<Record />} />
       <Route path="/users" element={<Users />} />
       <Route path="/users/add" element={<AddUser /> } />
       <Route path="/user/:loginId" element={<User />} />

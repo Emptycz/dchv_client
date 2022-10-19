@@ -28,13 +28,31 @@ export interface IRole extends IBaseModel {
 }
 
 export interface IContact extends IBaseModel {
-    id: number,
-    value: string,
-    contact_type_id: number,
-    person_id: number,
+  id: number,
+  value: string,
+  contact_type_id: number,
+  person_id: number,
 
-    person?: IPerson,
-    contact_type: undefined,
+  person?: IPerson,
+  contact_type: undefined,
+}
+
+export interface IRecordData extends IBaseModel {
+  id: number,
+  row: number,
+  column: number,
+  value: string,
+  recordID: number,
+}
+
+export interface IRecord extends IBaseModel {
+  id: number,
+  authorID: number,
+
+  name: string,
+  data: IRecordData[],
+
+  author?: IPerson;
 }
 
 interface IBaseModel {

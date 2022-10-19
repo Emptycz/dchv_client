@@ -1,7 +1,8 @@
 import { BlockOutlined, RemoveCircle } from '@mui/icons-material';
 import { Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import moment from 'moment';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import BaseContainer from '../../Containers/Base/BaseContainer';
 import { AuthContext } from '../../Contexts/AuthContext';
@@ -9,8 +10,8 @@ import useAxios from '../../Hooks/useAxios';
 import { ILogin } from '../../types';
 
 const Users = () => {
-  const [data, setData] = useState<ILogin[]>();
-  
+  const [users, setUsers] = useState<ILogin[]>();
+
   const { token } = useContext(AuthContext);
   const axios = useAxios(token);
   const history = useNavigate();
@@ -19,10 +20,18 @@ const Users = () => {
     return await axios.get('/login');
   };
 
+  useQuery(
+    ['getUsers'],
+    async () => {
+      const { data } = await fetchData();
+      setUsers(data);
+    }
+  );
+
   const removeUser = async (id: number) => {
     const result = await axios.delete(`/login/${id}`);
     if (result.status !== 200) return;
-    setData(data?.filter((x) => x.id !== id));
+    setUsers(users?.filter((x) => x.id !== id));
   };
 
   const renderData = (data: ILogin[]) => {
@@ -32,7 +41,7 @@ const Users = () => {
         <TableCell> <a href={`/user/${x.id}`} > {x.username} </a> </TableCell>
         <TableCell> {moment(x.created_at).format('DD-MM-YYYY')} </TableCell>
         {/* TODO: Change these to display onHover  */}
-        <TableCell> 
+        <TableCell>
           <IconButton>
             <BlockOutlined color='warning' />
           </IconButton>
@@ -43,13 +52,6 @@ const Users = () => {
       </TableRow>
     ));
   };
-
-  useEffect(() => {
-    fetchData().then((x) => {
-      if (x.status !== 200) return;
-      setData(x.data);
-    });
-  }, []);
 
   return (
     <BaseContainer>
@@ -74,7 +76,7 @@ const Users = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data ? renderData(data) : undefined}
+                {users ? renderData(users) : undefined}
               </TableBody>
             </Table>
           </TableContainer>

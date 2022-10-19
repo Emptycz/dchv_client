@@ -14,9 +14,9 @@ const User = () => {
 
   const [user, setUser] = useState<ILogin>();
   const { token } = useContext(AuthContext);
-  
+
   const axios = useAxios(token);
-  
+
   useEffect(() => {
     if (!loginId) return;
     axios.get(`/login/${loginId}`)

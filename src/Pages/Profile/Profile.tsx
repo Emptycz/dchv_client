@@ -4,7 +4,7 @@ import { AuthContext } from '../../Contexts/AuthContext';
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
-  
+
   return (
     <BaseContainer>
       <div className="profile">
