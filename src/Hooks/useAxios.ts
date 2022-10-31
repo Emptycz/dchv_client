@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const baseUrl = 'https://localhost:7122';
 
@@ -8,10 +8,14 @@ const getHeaders = (token: string) => ({
   'Authorization': `Bearer ${token}`,
 });
 
+interface CustomAxiosResponse extends AxiosResponse {
+  detail?: string,
+}
+
 const useAxios = (token: string) => {
-  // const { token } = useContext(loggedUserContext); 
-  
-  const post = (url: string, data: string | FormData, config?: AxiosRequestConfig) => {
+  // const { token } = useContext(loggedUserContext);
+
+  const post = (url: string, data: string | FormData, config?: AxiosRequestConfig): Promise<CustomAxiosResponse> => {
     return axios.post(baseUrl + url, data, {
       ...config,
       method: 'POST',
