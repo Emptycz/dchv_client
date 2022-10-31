@@ -2,15 +2,15 @@ import { Button } from '@mui/material';
 import { Form, FormState } from 'informed';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Input from '../../Components/Inputs/Input';
 import LabeledInput from '../../Components/Inputs/LabeledInput';
+import BaseContainer from '../../Containers/Base/BaseContainer';
 import { AuthContext } from '../../Contexts/AuthContext';
 import useAxios from '../../Hooks/useAxios';
 
 const AddRecord = () => {
   const { token } = useContext(AuthContext);
   const [file, setFile] = useState<File>();
-
-  console.log(token, 'ive got a token');
 
   const history = useNavigate();
 
@@ -35,11 +35,13 @@ const AddRecord = () => {
   };
 
   return (
-    <Form onSubmit={onFormSubmit} name='addRecordForm'>
-      <LabeledInput label='Name of the record' name='name' type='text' />
-      <input type="file" onChange={onFileUpload} />
-      <Button variant='outlined' type='submit'> Odeslat </Button>
-    </Form>
+    <BaseContainer>
+      <Form onSubmit={onFormSubmit} name='addRecordForm'>
+        <Input label='Name of the record' name='name' type='text' />
+        <input type="file" onChange={onFileUpload} />
+        <Button variant='outlined' type='submit'> Odeslat </Button>
+      </Form>
+    </BaseContainer>
   );
 };
 

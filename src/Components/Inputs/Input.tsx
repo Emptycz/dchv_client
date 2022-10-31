@@ -1,26 +1,21 @@
-import { TextField } from '@mui/material';
-import { useField, InputProps } from 'informed';
+import { InputProps, useField } from 'informed';
 import React from 'react';
 
-interface LabeledInputProps {
+interface CustomInputProps {
   name: string,
   label?: string,
   className?: string,
   required?: boolean,
-  variant?: 'outlined' | 'filled' | 'standard',
   type: 'email' | 'number' | 'text' | 'password',
-  color?: 'info' | 'warning' | 'primary' | 'secondary' | 'error' | 'success' | undefined,
 }
 
-const LabeledInput = ({
+const Input = ({
+  type,
   name,
   label,
-  type,
   required,
-  variant = 'outlined',
-  color = 'info',
   ...props
-}: LabeledInputProps) => {
+}: CustomInputProps) => {
   const {
     userProps,
     fieldApi,
@@ -38,25 +33,26 @@ const LabeledInput = ({
   };
 
   return (
-    <>
-      <TextField
-        label={label}
-        variant={variant}
+    <div className='flex flex-col gap-2'>
+      <label>
+        {label}
+      </label>
+      <input
         id={id}
         ref={ref}
         required={required}
-        className={className}
+        placeholder={label}
+        className={`rounded-sm w-52 h-10 text-gray-800 px-2 ${className}`}
         type={type}
         name={name}
-        color={color}
         value={!maskedValue ? '' : maskedValue}
         onChange={onInternalChange}
         onBlur={(e) => { setTouched(true, e); setFocused(false, e); }}
         onFocus={(e) => { setFocused(true, e); }}
         {...props}
       />
-    </>
+    </div>
   );
 };
 
-export default LabeledInput;
+export default Input;

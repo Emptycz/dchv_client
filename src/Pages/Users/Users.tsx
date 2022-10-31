@@ -10,7 +10,7 @@ import useAxios from '../../Hooks/useAxios';
 import { ILogin } from '../../types';
 
 const Users = () => {
-  const [users, setUsers] = useState<ILogin[]>();
+  const [users, setUsers] = useState<ILogin[]>([]);
 
   const { token } = useContext(AuthContext);
   const axios = useAxios(token);
@@ -34,24 +34,12 @@ const Users = () => {
     setUsers(users?.filter((x) => x.id !== id));
   };
 
-  const renderData = (data: ILogin[]) => {
-    return data.map((x, index) => (
-      <TableRow key={index}>
-        <TableCell> {x.id} </TableCell>
-        <TableCell> <a href={`/user/${x.id}`} > {x.username} </a> </TableCell>
-        <TableCell> {moment(x.created_at).format('DD-MM-YYYY')} </TableCell>
-        {/* TODO: Change these to display onHover  */}
-        <TableCell>
-          <IconButton>
-            <BlockOutlined color='warning' />
-          </IconButton>
-          <IconButton onClick={() => removeUser(x.id)}>
-            <RemoveCircle color='error' />
-          </IconButton>
-        </TableCell>
-      </TableRow>
-    ));
+  const sortData = () => {
+    const recs = users.sort((a, b) => a.username.localeCompare(b.username));
+    console.log(recs);
+    setUsers(recs);
   };
+
 
   return (
     <BaseContainer>
@@ -64,23 +52,39 @@ const Users = () => {
           Add user
           </Button>
         </div>
-        <div className='users__table'>
-          <TableContainer>
-            <Table id='users_table'>
-              <TableHead>
-                <TableRow>
-                  <TableCell> ID </TableCell>
-                  <TableCell> Username </TableCell>
-                  <TableCell> Created at </TableCell>
-                  <TableCell> Operation </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users ? renderData(users) : undefined}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <div className='my-10'>
+          <table className='w-full'>
+            <thead>
+              <tr className='border-b-2 text-left'>
+                <th className='p-2'> ID </th>
+                <th className='p-2' onClick={() => sortData()}> Email </th>
+                <th className='p-2'> Created at </th>
+                <th className='p-2'> Operations </th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((x) => (
+                <tr
+                  className='even:bg-gray-200 dark:even:bg-gray-700 text-left cursor-pointer'
+                  key={x.id}
+                >
+                  <td onClick={() => history(`/user/${x.id}`)} className='border-b-2 p-2'> {x.id} </td>
+                  <td onClick={() => history(`/user/${x.id}`)} className='border-b-2 p-2'> {x.username} </td>
+                  <td onClick={() => history(`/user/${x.id}`)} className='border-b-2 p-2'> {moment(x.created_at).format('DD.MM.YYYY')} </td>
+                  <td className='border-b-2 p-2'>
+                    <IconButton>
+                      <BlockOutlined color='warning' />
+                    </IconButton>
+                    <IconButton onClick={() => console.error('Že já tě vymažu!')}>
+                      <RemoveCircle color='error' />
+                    </IconButton>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+
       </div>
     </BaseContainer>
   );
