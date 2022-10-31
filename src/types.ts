@@ -21,10 +21,10 @@ export interface ILogin extends IBaseModel {
 export interface IRole extends IBaseModel {
   id: number,
   name: Roles,
-  display_?: string,
-  author_id: number,
+  displayName?: string,
+  person_id: number,
 
-  author?: IPerson,
+  person?: IPerson,
 }
 
 export interface IContact extends IBaseModel {
@@ -47,12 +47,22 @@ export interface IRecordData extends IBaseModel {
 
 export interface IRecord extends IBaseModel {
   id: number,
-  authorID: number,
+  personID: number,
 
   name: string,
   data: IRecordData[],
 
-  author?: IPerson;
+  person?: IPerson;
+}
+
+export interface IPersonGroup extends IBaseModel {
+  id: number,
+  name: string,
+  displayName?: string,
+  person_id: number,
+
+  person?: IPerson,
+  members?: IPerson[],
 }
 
 interface IBaseModel {
