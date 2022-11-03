@@ -1,5 +1,5 @@
 import { BlockOutlined, RemoveCircle } from '@mui/icons-material';
-import { Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import moment from 'moment';
 import React, { useContext, useState } from 'react';
 import { useQuery } from 'react-query';
@@ -75,7 +75,7 @@ const Users = () => {
                     <IconButton>
                       <BlockOutlined color='warning' />
                     </IconButton>
-                    <IconButton onClick={() => console.error('Že já tě vymažu!')}>
+                    <IconButton onClick={async () => await removeUser(x.id)}>
                       <RemoveCircle color='error' />
                     </IconButton>
                   </td>
