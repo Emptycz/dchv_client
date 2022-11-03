@@ -1,6 +1,6 @@
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import { TypeColumn } from '@inovua/reactdatagrid-community/types';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { MouseEventHandler, useCallback, useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/AuthContext';
@@ -26,15 +26,27 @@ type EditCellType = {
   rowId: number,
 };
 
+type CellType = {
+  key: number,
+  value?: string,
+  onClick?: MouseEventHandler<HTMLTableCellElement> | undefined;
+}
 
-const Cell = ({key, value}: {key: number, value?: string }) => {
+
+const Cell = ({
+  key,
+  value,
+  onClick
+}: CellType) => {
   const [isSelected, setIsSelected] = useState<boolean>(false);
   return (
     <td
       key={key}
       className={`border-2 w-24 h-10 truncate flex items-center ${isSelected ? 'bg-blue-300' : ''}`}
-      onClick={() => {
+      onClick={(e) => {
         setIsSelected(!isSelected);
+        if (!onClick) return;
+        onClick(e);
       }}
     >
       {value}
@@ -42,7 +54,7 @@ const Cell = ({key, value}: {key: number, value?: string }) => {
   );
 };
 
-
+// FIXME: This need to be in useMemo or useCallback
 const generateColumns = (length: number) => {
   const letterCount = 26;
   const alphabet:string[] = [];
@@ -50,7 +62,6 @@ const generateColumns = (length: number) => {
     const alpha = Array.from(Array(letterCount)).map((e, i) => i + 65);
     alpha.map((x) => alphabet.push(String.fromCharCode(x)));
   }
-  console.log(alphabet);
   return alphabet;
 };
 
@@ -64,6 +75,8 @@ const Record = () => {
 
   const [record, setRecord] = useState<IRecord>();
   const [tableData, setTableData] = useState<Matrix<{value: string}>>([]);
+
+  const [selectedData, setSelectedData] = useState<Matrix<{value: string}>>([]);
 
   const { token } = useContext(AuthContext);
   const axios = useAxios(token);
@@ -107,11 +120,11 @@ const Record = () => {
       { !tableData ? 'loading...' : (
         <>
           <h1> {record?.name} </h1>
-          {/* <Spreadsheet
+          <Spreadsheet
             className="record__table"
             data={tableData}
-          /> */}
-          <table className='cursor-cell'>
+          />
+          {/* <table className='cursor-cell'>
             <tbody>
               <tr className='flex flex-row'>
                 {generateColumns(tableData?.[0]?.length).map((x, i) => (
@@ -122,12 +135,18 @@ const Record = () => {
                 <tr className='flex flex-row' key={i}>
                   <td className='bg-gray-100 border-2 w-24 h-10 truncate flex items-center'> {i + 1} </td>
                   {x.map((y, r) => (
-                    <Cell key={r} value={y?.value} />
+                    <Cell onClick={(val: any) =>{
+                      console.log(val);
+                      setSelectedData([...selectedData, val]);
+                    }}
+                    key={r}
+                    value={y?.value}
+                    />
                   ))}
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
         </>
       ) }
     </>
