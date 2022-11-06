@@ -16,6 +16,8 @@ export interface ILogin extends IBaseModel {
   username: string,
   password?: string,
   verified_at: string,
+
+  persons: IPerson[],
 }
 
 export interface IRole extends IBaseModel {
