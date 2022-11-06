@@ -2,11 +2,20 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const baseUrl = 'https://localhost:7122';
 
-const getHeaders = (token: string) => ({
-  'Content-Type': 'application/json; charset=utf-8',
-  'Accept': 'application/json; charset=utf-8',
-  'Authorization': `Bearer ${token}`,
-});
+type AxiosHeadersType = {
+  'Content-Type': string,
+  Accept: string,
+  Authorization?: string,
+};
+
+export const setAxiosHeaders = (token?: string) => {
+  const headers: AxiosHeadersType = {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Accept': 'application/json; charset=utf-8',
+  };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return headers;
+};
 
 interface CustomAxiosResponse extends AxiosResponse {
   detail?: string,
@@ -19,7 +28,7 @@ const useAxios = (token: string) => {
     return axios.post(baseUrl + url, data, {
       ...config,
       method: 'POST',
-      headers: getHeaders(token)
+      headers: setAxiosHeaders(token)
     });
   };
 
@@ -27,7 +36,7 @@ const useAxios = (token: string) => {
     return axios.get(baseUrl + url, {
       ...config,
       method: 'GET',
-      headers: getHeaders(token)
+      headers: setAxiosHeaders(token)
     });
   };
 
@@ -36,7 +45,7 @@ const useAxios = (token: string) => {
     return axios.delete(baseUrl + url, {
       ...config,
       method: 'DELETE',
-      headers: getHeaders(token)
+      headers: setAxiosHeaders(token)
     });
   };
 
