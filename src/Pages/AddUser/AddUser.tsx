@@ -8,6 +8,7 @@ import LabeledInput from '../../Components/Inputs/LabeledInput';
 import BaseContainer from '../../Containers/Base/BaseContainer';
 import { AuthContext } from '../../Contexts/AuthContext';
 import useAxios from '../../Hooks/useAxios';
+import AddUserForm from './AddUserForm';
 
 const AddUser = () => {
   const { token } = useContext(AuthContext);
@@ -39,28 +40,15 @@ const AddUser = () => {
   return (
     <BaseContainer>
       <Form className='flex flex-col gap-5 w-100' onSubmit={onSubmit}>
+        {/* FIXME: Remove the <h1> out of the <form> */}
         <h1> Create new account </h1>
-        <div className='flex flex-col gap-2'>
-          <p> Login informations: </p>
-          <div className='flex max-lg:flex-col flex-row gap-5'>
-            <LabeledInput required className='lg:w-96' label="Email" name="username" type="email" />
-            <LabeledInput required className='lg:w-96' name="password" label='Heslo' type="password" />
-          </div>
-        </div>
-        <div className='flex flex-col gap-2'>
-          <p> Person informations: </p>
-          <div className='flex max-lg:flex-col lg:flex-row gap-5'>
-            <LabeledInput required className='lg:w-96' label="Firstname" name="persons.[0].firstname" type="text" />
-            <LabeledInput required className='lg:w-96' label="Lastname" name="persons.[0].lastname" type="text" />
-          </div>
-        </div>
+        <AddUserForm />
         <Checkbox label='Verified' name='verified_at' />
         {!alert ? '' : (
           <Alert className='login__card__form__alert' severity='error'>
             {alert}
           </Alert>
         )}
-
         <Button className='lg:w-96' variant='contained' type="submit"> Create account </Button>
       </Form>
     </BaseContainer>

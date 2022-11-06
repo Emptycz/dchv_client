@@ -11,13 +11,15 @@ import User from '../Pages/User/User';
 import Record from '../Pages/Record/Record';
 import Groups from '../Pages/Groups/Groups';
 import Group from '../Pages/Group/Group';
+import Registration from '../Pages/Registration/Registration';
 
 const Paths = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/registration" element={<Registration />} />
 
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/records" element={<Records />} />
       <Route path="/records/add" element={<AddRecord />} />
       <Route path="/record/:recordId" element={<Record />} />
