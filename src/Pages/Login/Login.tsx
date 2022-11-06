@@ -22,6 +22,9 @@ const Login = () => {
       }
     }).catch((err: AxiosError) => {
       setAlert('Chybné přihlašovací údaje');
+      if (err.code === '404') {
+        //TODO: Show error message (), user not found
+      }
       throw new Error(err.message);
     });
 
