@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useQuery } from 'react-query';
+import { Navigate, useParams } from 'react-router-dom';
+import RecordList from '../../Components/Lists/RecordList';
 import BaseContainer from '../../Containers/Base/BaseContainer';
-import { AuthContext } from '../../Contexts/AuthContext';
-import useAxios from '../../Hooks/useAxios';
+import useAxios from '../../Hooks/Axios.hook';
 import { ILogin } from '../../types';
 
 type UserProps = {
@@ -12,22 +13,28 @@ type UserProps = {
 const User = () => {
   const { loginId } = useParams<UserProps>();
 
-  const [user, setUser] = useState<ILogin>();
-  const { token } = useContext(AuthContext);
+  const axios = useAxios();
 
-  const axios = useAxios(token);
+  const { data } = useQuery(
+    ['FetchProfile', loginId],
+    async () =>{
+      const { data: res } = await axios.get<ILogin>(`/login/${loginId}`);
+      return res;
+    },
+    {
+      enabled: !!loginId,
+    }
+  );
 
-  useEffect(() => {
-    if (!loginId) return;
-    axios.get(`/login/${loginId}`)
-      .then((x) => {
-        setUser(x.data);
-      });
-  }, [loginId]);
+  if (!data) return <Navigate to='/users' />;
 
   return (
     <BaseContainer>
-      <h1> {user?.username} </h1>
+      <h1> {data?.username} </h1>
+      {}
+      <div>
+        <RecordList PersonID={data.persons?.[0].id} />
+      </div>
     </BaseContainer>
   );
 };

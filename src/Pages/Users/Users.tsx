@@ -1,24 +1,24 @@
 import { BlockOutlined, RemoveCircle } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 import moment from 'moment';
-import React, { useContext, useState } from 'react';
-import { useQuery } from 'react-query';
+import React, { useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import BaseContainer from '../../Containers/Base/BaseContainer';
-import { AuthContext } from '../../Contexts/AuthContext';
-import useAxios from '../../Hooks/useAxios';
+import useAxios from '../../Hooks/Axios.hook';
 import { ILogin } from '../../types';
 
 const Users = () => {
   const [users, setUsers] = useState<ILogin[]>([]);
 
-  const { token } = useContext(AuthContext);
-  const axios = useAxios(token);
+  const axios = useAxios();
   const history = useNavigate();
 
   const fetchData = async () => {
-    return await axios.get('/login');
+    return await axios.get<ILogin[]>('/login');
   };
+
+  const queryClient = useQueryClient();
 
   useQuery(
     ['getUsers'],
@@ -31,12 +31,11 @@ const Users = () => {
   const removeUser = async (id: number) => {
     const result = await axios.delete(`/login/${id}`);
     if (result.status !== 200) return;
-    setUsers(users?.filter((x) => x.id !== id));
+    queryClient.invalidateQueries('getUsers');
   };
 
   const sortData = () => {
     const recs = users.sort((a, b) => a.username.localeCompare(b.username));
-    console.log(recs);
     setUsers(recs);
   };
 

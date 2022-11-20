@@ -1,20 +1,17 @@
 import { Alert, Button } from '@mui/material';
 import { Form, FormState } from 'informed';
 import moment from 'moment';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '../../Components/Inputs/Checkbox';
-import LabeledInput from '../../Components/Inputs/LabeledInput';
 import BaseContainer from '../../Containers/Base/BaseContainer';
-import { AuthContext } from '../../Contexts/AuthContext';
-import useAxios from '../../Hooks/useAxios';
+import useAxios from '../../Hooks/Axios.hook';
 import AddUserForm from './AddUserForm';
 
 const AddUser = () => {
-  const { token } = useContext(AuthContext);
   const [alert, setAlert] = useState<string>();
 
-  const axios = useAxios(token);
+  const axios = useAxios();
   const history = useNavigate();
 
   const onSubmit = async ({ values }: FormState ) => {

@@ -1,28 +1,23 @@
 import moment from 'moment';
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
-import { AuthContext } from '../../Contexts/AuthContext';
-import useAxios from '../../Hooks/useAxios';
+import useAxios from '../../Hooks/Axios.hook';
 import { IRecord } from '../../types';
 
 const LatestFiles = () => {
-  const [records, setRecords] = useState<IRecord[]>([]);
+  const axios = useAxios();
 
-  const { token } = useContext(AuthContext);
-  const axios = useAxios(token);
-
-  useQuery(
+  const { data } = useQuery(
     ['fetchLatestRecords'],
-    async () => {
-      const { data } = await axios.get('/record');
-      setRecords(data);
-    }
+    async (): Promise<IRecord[]> => {
+      const { data: res } = await axios.get<IRecord[]>('/record');
+      return res;
+    },
   );
 
   const sortData = () => {
-    const recs = records.sort((a, b) => a.name.localeCompare(b.name));
+    const recs = data?.sort((a, b) => a.name.localeCompare(b.name));
     console.log(recs);
-    setRecords(recs);
   };
 
   return (
@@ -34,7 +29,7 @@ const LatestFiles = () => {
         </tr>
       </thead>
       <tbody>
-        {records.map((x) => (
+        {data?.map((x) => (
           <tr className='even:bg-gray-200 dark:even:bg-gray-700' key={x.id}>
             <td className='border-b-2 text-left p-2'> {x.name} </td>
             <td className='border-b-2 text-left p-2'> {moment(x.created_at).format('DD.MM.YYYY')} </td>

@@ -1,4 +1,6 @@
+import { AuthContext } from './../Contexts/AuthContext';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { useContext } from 'react';
 
 const baseUrl = 'https://localhost:7122';
 
@@ -17,14 +19,14 @@ export const setAxiosHeaders = (token?: string) => {
   return headers;
 };
 
-interface CustomAxiosResponse extends AxiosResponse {
+export interface CustomAxiosResponse<T> extends AxiosResponse<T> {
   detail?: string,
 }
 
-const useAxios = (token: string) => {
-  // const { token } = useContext(loggedUserContext);
+const useAxios = () => {
+  const { token } = useContext(AuthContext);
 
-  const post = (url: string, data: string | FormData, config?: AxiosRequestConfig): Promise<CustomAxiosResponse> => {
+  const post = <T>(url: string, data: string | FormData, config?: AxiosRequestConfig): Promise<CustomAxiosResponse<T>> => {
     return axios.post(baseUrl + url, data, {
       ...config,
       method: 'POST',
@@ -32,7 +34,7 @@ const useAxios = (token: string) => {
     });
   };
 
-  const get = (url: string, config?: AxiosRequestConfig) => {
+  const get = <T>(url: string, config?: AxiosRequestConfig): Promise<CustomAxiosResponse<T>> => {
     return axios.get(baseUrl + url, {
       ...config,
       method: 'GET',

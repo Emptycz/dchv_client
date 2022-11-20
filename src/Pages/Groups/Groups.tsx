@@ -1,12 +1,11 @@
 import { BlockOutlined, RemoveCircle } from '@mui/icons-material';
 import { Button, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import moment from 'moment';
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import BaseContainer from '../../Containers/Base/BaseContainer';
-import { AuthContext } from '../../Contexts/AuthContext';
-import useAxios from '../../Hooks/useAxios';
+import useAxios from '../../Hooks/Axios.hook';
 import { IPersonGroup } from '../../types';
 
 const renderData = (data: IPersonGroup[]) => {
@@ -30,23 +29,17 @@ const renderData = (data: IPersonGroup[]) => {
 };
 
 const Groups = () => {
-  const { token } = useContext(AuthContext);
-
-  const [groups, setGroups] = useState<IPersonGroup[]>([]);
-
-  const axios = useAxios(token);
+  const axios = useAxios();
   const history = useNavigate();
 
   const fetchData = async () => {
-    return await axios.get('/personGroup');
+    const { data } = await axios.get<IPersonGroup[]>('/personGroup');
+    return data;
   };
 
-  useQuery(
+  const { data } = useQuery(
     ['fetchPersonGroups'],
-    async () => {
-      const { data } = await fetchData();
-      setGroups(data);
-    }
+    async () => await fetchData(),
   );
 
   return (
@@ -70,7 +63,7 @@ const Groups = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {groups ? renderData(groups) : undefined}
+              {data ? renderData(data) : undefined}
             </TableBody>
           </Table>
         </TableContainer>

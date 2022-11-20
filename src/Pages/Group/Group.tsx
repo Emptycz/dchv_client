@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import BaseContainer from '../../Containers/Base/BaseContainer';
-import { AuthContext } from '../../Contexts/AuthContext';
-import useAxios from '../../Hooks/useAxios';
+import useAxios from '../../Hooks/Axios.hook';
 import { IPerson, IPersonGroup } from '../../types';
 
 const renderMembers = (members: IPerson[]) => {
@@ -20,32 +19,27 @@ const Group = () => {
     history('/groups');
   }
 
-  const [group, setGroup] = useState<IPersonGroup>();
-
-  const { token } = useContext(AuthContext);
-  const axios = useAxios(token);
+  const axios = useAxios();
 
   const fetchData = async () => {
-    return await axios.get(`/personGroup/${groupId}`);
+    const { data } = await axios.get<IPersonGroup>(`/personGroup/${groupId}`);
+    return data;
   };
 
-  useQuery(
+  const { data } = useQuery(
     ['fetchPersonGroup', groupId],
-    async () => {
-      const { data } = await fetchData();
-      setGroup(data);
-    },
+    async () => await fetchData(),
   );
 
   return (
     <BaseContainer>
       <div>
-        <h1> {group?.name} </h1>
+        <h1> {data?.name} </h1>
         <span> Members: </span>
         <ul>
-          {!group?.members || group?.members?.length === 0 ?
+          {!data?.members || data?.members?.length === 0 ?
             <li> no members in the group </li>
-            : renderMembers(group?.members)}
+            : renderMembers(data?.members)}
         </ul>
       </div>
     </BaseContainer>

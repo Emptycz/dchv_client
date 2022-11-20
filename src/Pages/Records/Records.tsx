@@ -1,22 +1,20 @@
 import { BlockOutlined, RemoveCircle } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 import moment from 'moment';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import BaseContainer from '../../Containers/Base/BaseContainer';
-import { AuthContext } from '../../Contexts/AuthContext';
-import useAxios from '../../Hooks/useAxios';
+import useAxios from '../../Hooks/Axios.hook';
 import { IRecord } from '../../types';
 
 const Records = () => {
   const [records, setRecords] = useState<IRecord[]>([]);
-  const { token } = useContext(AuthContext);
-  const axios = useAxios(token);
+  const axios = useAxios();
   const history = useNavigate();
 
   const fetchData = async () => {
-    return await axios.get('/record');
+    return await axios.get<IRecord[]>('/record');
   };
 
   useQuery(
