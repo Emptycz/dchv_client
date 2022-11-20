@@ -1,5 +1,5 @@
-import { IPerson } from './../types';
-import { AuthContext } from './../Contexts/AuthContext';
+import { IPerson } from '../types';
+import { AuthContext } from '../Contexts/AuthContext';
 import { useContext } from 'react';
 
 type AuthType = {
