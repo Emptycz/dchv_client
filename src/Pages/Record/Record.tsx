@@ -1,14 +1,8 @@
-import ReactDataGrid from '@inovua/reactdatagrid-community';
-import { TypeColumn } from '@inovua/reactdatagrid-community/types';
-import React, { MouseEventHandler, useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AuthContext } from '../../Contexts/AuthContext';
-import useAxios from '../../Hooks/useAxios';
+import useAxios from '../../Hooks/Axios.hook';
 import { IRecord, IRecordData } from '../../types';
-
-import '@inovua/reactdatagrid-community/index.css';
-import Spreadsheet, { Matrix } from 'react-spreadsheet';
 
 import './Record.scss';
 import Jspreadsheet from '../../Components/Spreadsheet/Jspreadsheet';
@@ -17,54 +11,11 @@ type RecordProps = {
   recordId: string,
 }
 
-// type TableCell = {
-//   value: string,
-// }
-
 type EditCellType = {
   value: string,
   columnId: number,
   rowId: number,
 };
-
-// type CellType = {
-//   key: number,
-//   value?: string,
-//   onClick?: MouseEventHandler<HTMLTableCellElement> | undefined;
-// }
-
-
-// const Cell = ({
-//   key,
-//   value,
-//   onClick
-// }: CellType) => {
-//   const [isSelected, setIsSelected] = useState<boolean>(false);
-//   return (
-//     <td
-//       key={key}
-//       className={`border-2 w-24 h-10 truncate flex items-center ${isSelected ? 'bg-blue-300' : ''}`}
-//       onClick={(e) => {
-//         setIsSelected(!isSelected);
-//         if (!onClick) return;
-//         onClick(e);
-//       }}
-//     >
-//       {value}
-//     </td>
-//   );
-// };
-
-// // FIXME: This need to be in useMemo or useCallback
-// const generateColumns = (length: number) => {
-//   const letterCount = 26;
-//   const alphabet:string[] = [];
-//   for (let i = 0; i < length / letterCount; i++) {
-//     const alpha = Array.from(Array(letterCount)).map((e, i) => i + 65);
-//     alpha.map((x) => alphabet.push(String.fromCharCode(x)));
-//   }
-//   return alphabet;
-// };
 
 const Record = () => {
   const { recordId } = useParams<RecordProps>();
@@ -74,18 +25,15 @@ const Record = () => {
     history('/records');
   }
 
-  const [record, setRecord] = useState<IRecord>();
-  const [tableData, setTableData] = useState<Matrix<{value: string}>>([]);
+  const [tableData, setTableData] = useState<Array<string[]>>([]);
 
-  const { token } = useContext(AuthContext);
-  const axios = useAxios(token);
+  const axios = useAxios();
 
-  useQuery(
+  const { data } = useQuery(
     ['getRecordDetail', recordId],
     async () => {
-      const { data }: { data: IRecord } = await axios.get(`/record/${recordId}`);
-      setRecord(data);
-      setTableData(getSpreadsheetData(data.data));
+      const { data: record }: { data: IRecord } = await axios.get(`/record/${recordId}`);
+      setTableData(getSpreadsheetData(record.data));
     }, {
       refetchOnWindowFocus: false,
     }
@@ -96,73 +44,32 @@ const Record = () => {
     //       that will modify the data
   };
 
-  // const getData = useCallback((data: IRecordData[]): Matrix<{value: string}> => {
-  //   const rows: Array<TableCell[]> = [];
-  //   let row: TableCell[] = [];
-  //   for (let i = 0; i < data?.length; i++) {
-  //     // if (data[i].column !== 0 && data[i].column !== data[i - 1]?.column + 1) {
-  //     //   row.push({ value: '' });
-  //     // } else {
-  //     // }
-  //     row.push({value: data[i].value});
-  //     if (data[i].row !== data[i + 1]?.row) {
-  //       rows.push(row);
-  //       row = [];
-  //     }
-  //   }
-  //   // console.log(rows);
-  //   return rows;
-  // }, [record?.data]);
-
-  const getSpreadsheetData = (data?: IRecordData[]) => {
+  const getSpreadsheetData = useCallback((data?: IRecordData[]) => {
     if (!data) return [];
-    const rows: any = [];
-    let row: string[] = [];
+    const rows: Array<string[]> = [];
+
+    const numberOfCols = data.filter(x => x.column === data[0].column).length;
+    let row: string[] = new Array<string>().fill('', 0, numberOfCols);
 
     for (let i = 0; i < data?.length; i++) {
-      row.push(data[i]?.value);
+      row[data[i].column] = data[i]?.value;
       if (data[i].row !== data[i + 1]?.row) {
         rows.push(row);
-        row = [];
+        row = new Array<string>().fill('', 0, numberOfCols);
       }
     }
+
     return rows;
-  };
+  }, []);
 
   return (
     <>
       { !tableData ? 'loading...' : (
         <>
-          <h1> {record?.name} </h1>
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
+          <h1> {data?.name} </h1>
           <Jspreadsheet data={tableData} minDimensions={[30, 30]} />
-          {/* <Spreadsheet
-            className="record__table"
-            data={tableData}
-          /> */}
-
-          {/* <table className='cursor-cell'>
-            <tbody>
-              <tr className='flex flex-row'>
-                {generateColumns(tableData?.[0]?.length).map((x, i) => (
-                  <td className='bg-gray-100 border-2 w-24 h-10 truncate flex items-center' key={i}> {x} </td>
-                ))}
-              </tr>
-              {tableData.map((x, i) => (
-                <tr className='flex flex-row' key={i}>
-                  <td className='bg-gray-100 border-2 w-24 h-10 truncate flex items-center'> {i + 1} </td>
-                  {x.map((y, r) => (
-                    <Cell onClick={(val: any) =>{
-                      console.log(val);
-                      setSelectedData([...selectedData, val]);
-                    }}
-                    key={r}
-                    value={y?.value}
-                    />
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
         </>
       ) }
     </>
