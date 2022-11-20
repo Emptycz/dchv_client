@@ -12,6 +12,7 @@ import Record from '../Pages/Record/Record';
 import Groups from '../Pages/Groups/Groups';
 import Group from '../Pages/Group/Group';
 import Registration from '../Pages/Registration/Registration';
+import ProtectedRoute from './ProtectedRoute';
 
 const Paths = () => {
   return (
@@ -19,19 +20,19 @@ const Paths = () => {
       <Route path="/" element={<Login />} />
       <Route path="/registration" element={<Registration />} />
 
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/records" element={<Records />} />
-      <Route path="/records/add" element={<AddRecord />} />
-      <Route path="/record/:recordId" element={<Record />} />
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/records" element={<ProtectedRoute><Records /></ProtectedRoute>} />
+      <Route path="/records/add" element={<ProtectedRoute><AddRecord /></ProtectedRoute>} />
+      <Route path="/record/:recordId" element={<ProtectedRoute><Record /></ProtectedRoute>} />
 
-      <Route path="/users" element={<Users />} />
-      <Route path="/users/add" element={<AddUser /> } />
-      <Route path="/user/:loginId" element={<User />} />
+      <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+      <Route path="/users/add" element={<ProtectedRoute><AddUser /></ProtectedRoute> } />
+      <Route path="/user/:loginId" element={<ProtectedRoute><User /></ProtectedRoute>} />
 
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
-      <Route path="/groups" element={<Groups />} />
-      <Route path="/group/:groupId" element={<Group />} />
+      <Route path="/groups" element={<ProtectedRoute><Groups /></ProtectedRoute>} />
+      <Route path="/group/:groupId" element={<ProtectedRoute><Group /></ProtectedRoute>} />
     </Routes>
   );
 };
