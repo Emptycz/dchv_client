@@ -1,13 +1,13 @@
 import { DarkMode, LightMode } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ColorModeContext, IColorModeContext } from '../../Contexts/ColorModeContext';
-import useAuth from '../../Hooks/Auth.hooks';
+import useAuth from '../../Hooks/Auth.hook';
+import useColorMode from '../../Hooks/ColorMode.hook';
 
 const Navbar = () => {
-  const { darkMode, setDarkMode }: IColorModeContext = useContext(ColorModeContext);
+  const { mode: colorMode, setMode } = useColorMode();
 
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
@@ -15,6 +15,11 @@ const Navbar = () => {
   const onSignOut = () => {
     signOut();
     navigate('/');
+  };
+
+  const invertColorMode = () => {
+    if (colorMode === 'light') return setMode('dark');
+    return setMode('light');
   };
 
   return (
@@ -29,8 +34,8 @@ const Navbar = () => {
       <ul className='flex flex-row gap-5'>
         <li> Notifications </li>
         <li>
-          <button onClick={() => setDarkMode(!darkMode)}>
-            {!darkMode ?
+          <button onClick={() => invertColorMode()}>
+            {colorMode === 'light' ?
               <DarkMode className='hover:text-gray-600' />
               : <LightMode className='hover:text-yellow-300 ' />
             }
