@@ -5,7 +5,7 @@ export interface MaterialTableProps<T> {
   name: string,
   columns: string[],
   data?: JSX.Element[],
-} 
+}
 
 const renderColumns = (cols: string[]) => {
   if (!cols || cols.length === 0) return;

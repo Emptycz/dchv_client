@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Form, FormState } from 'informed';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setAxiosHeaders } from '../../Hooks/useAxios';
+import { setAxiosHeaders } from '../../Hooks/Axios.hook';
 import { ILogin, IPerson } from '../../types';
 import RegistrationForm from './RegistrationForm';
 

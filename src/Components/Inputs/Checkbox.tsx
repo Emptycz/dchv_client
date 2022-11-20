@@ -31,7 +31,7 @@ const Checkbox = ({
   const { id, className } = userProps;
   const { maskedValue } = fieldState;
   const { setValue, setTouched, setFocused } = fieldApi;
-  
+
   const onInternalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     return setValue(e.target.checked, e);
   };

@@ -10,7 +10,7 @@ import './Login.scss';
 const Login = () => {
   const { setUser, setToken } = useContext(AuthContext);
   const [alert, setAlert] = useState<string | undefined>(undefined);
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = async ({ values }: FormState) => {
     if (!values || values.length === 0) return;
@@ -31,7 +31,7 @@ const Login = () => {
     setToken(response?.data.token);
     setUser(response?.data.persons[0]);
 
-    history('/dashboard');
+    navigate('/dashboard');
     return;
   };
 
