@@ -1,15 +1,16 @@
 import { Alert, Button, Card } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { Form, FormState } from 'informed';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LabeledInput from '../../Components/Inputs/LabeledInput';
-import { AuthContext } from '../../Contexts/AuthContext';
+import useAuth from '../../Hooks/Auth.hook';
 import './Login.scss';
 
 const Login = () => {
-  const { setUser, setToken } = useContext(AuthContext);
   const [alert, setAlert] = useState<string | undefined>(undefined);
+
+  const { signIn } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = async ({ values }: FormState) => {
@@ -27,9 +28,7 @@ const Login = () => {
       }
       throw new Error(err.message);
     });
-
-    setToken(response?.data.token);
-    setUser(response?.data.persons[0]);
+    signIn(response?.data.persons[0], response?.data.token);
 
     navigate('/dashboard');
     return;

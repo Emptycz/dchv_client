@@ -1,7 +1,6 @@
 import { AccountCircle, AssignmentInd, Dashboard, Group, Topic} from '@mui/icons-material';
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../Contexts/AuthContext';
 
 import './Sidebar.scss';
 
@@ -57,8 +56,6 @@ const renderMenuContent = (routes: RouteType[] ) => {
 };
 
 const Sidebar = () => {
-  const { user } = useContext(AuthContext);
-
   return (
     <nav className="flex flex-col bg-red-300 w-auto h-screen dark:bg-gray-900 text-gray-800 dark:text-slate-200 border-r-2 dark:border-gray-700">
       {renderMenuContent(adminRoutes)}

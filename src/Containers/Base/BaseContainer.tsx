@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Navbar from '../../Components/Navbar/Navbar';
 import Sidebar from '../../Components/Sidebar/Sidebar';
-import { ColorModeContext } from '../../Contexts/ColorModeContext';
+import useColorMode from '../../Hooks/ColorMode.hook';
 
 import './BaseContainer.scss';
 
@@ -12,10 +12,9 @@ type ContainerTypes = {
 
 const BaseContainer = ({ children }: ContainerTypes) => {
 
-  const { darkMode } = useContext(ColorModeContext);
-
+  const { mode: colorMode } = useColorMode();
   return (
-    <div className={darkMode ? 'dark' : undefined}>
+    <div className={colorMode}>
       <Navbar />
       <div className="flex flex-row">
         <Sidebar />

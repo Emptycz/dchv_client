@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import BaseContainer from '../../Containers/Base/BaseContainer';
-import { AuthContext } from '../../Contexts/AuthContext';
+import useAuth from '../../Hooks/Auth.hook';
 
 const Profile = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   if (!user) return <Navigate to='/users' />;
 
