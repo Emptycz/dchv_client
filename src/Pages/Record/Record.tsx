@@ -32,8 +32,9 @@ const Record = () => {
   const { data } = useQuery(
     ['getRecordDetail', recordId],
     async () => {
-      const { data: record }: { data: IRecord } = await axios.get(`/record/${recordId}`);
+      const { data: record }: { data: IRecord } = await axios.get<IRecord>(`/record/${recordId}`);
       setTableData(getSpreadsheetData(record.data));
+      return record;
     }, {
       refetchOnWindowFocus: false,
     }
@@ -66,8 +67,6 @@ const Record = () => {
     <>
       { !tableData ? 'loading...' : (
         <>
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore */}
           <h1> {data?.name} </h1>
           <Jspreadsheet data={tableData} minDimensions={[30, 30]} />
         </>
