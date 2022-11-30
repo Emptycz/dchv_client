@@ -32,11 +32,13 @@ module.exports = {
   ],
   'rules': {
     'indent': [
-      'error',
+      'warn',
       2,
       { 'SwitchCase': 1 }
     ],
+    camelcase: ['off'],
     'linebreak-style': ['off'],
+    'implicit-arrow-linebreak': ['off'],
     'quotes': [
       'error',
       'single'
@@ -45,6 +47,9 @@ module.exports = {
       'error',
       'always'
     ],
-    '@typescript-eslint/no-empty-function': 'off'
+    '@typescript-eslint/no-empty-function': 'off',
+    // FIXME: Remove these test rules
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   }
 };
