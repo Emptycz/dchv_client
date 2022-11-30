@@ -17,7 +17,7 @@ const Registration = () => {
     console.log(values, 'Vals');
     if (!values || values.length === 0) return;
 
-    const url = process.env.REACT_APP_API_URL || undefined;
+    const url = process.env.REACT_APP_API_URL + '/Login' || undefined;
     if (!url) throw new Error('Could not find API_URL in ENV');
 
     const reqObj: Partial<ILogin> = {

@@ -15,7 +15,7 @@ const Login = () => {
 
   const onSubmit = async ({ values }: FormState) => {
     if (!values || values.length === 0) return;
-    const url = process.env.REACT_APP_API_URL || undefined;
+    const url = process.env.REACT_APP_API_URL + '/Auth' || undefined;
     if (!url) throw new Error('Could not find API_URL in ENV');
 
     const response = await axios.post(url, JSON.stringify(values), {
