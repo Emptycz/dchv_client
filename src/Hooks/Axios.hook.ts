@@ -2,7 +2,8 @@ import { AuthContext } from './../Contexts/AuthContext';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useContext } from 'react';
 
-const baseUrl = 'https://localhost:7122';
+const baseUrl = process.env.REACT_APP_API_URL;
+if (!baseUrl) throw new Error('Could not find `API_URL` in `.env`');
 
 type AxiosHeadersType = {
   'Content-Type': string,

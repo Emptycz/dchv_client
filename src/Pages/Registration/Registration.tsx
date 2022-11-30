@@ -17,6 +17,9 @@ const Registration = () => {
     console.log(values, 'Vals');
     if (!values || values.length === 0) return;
 
+    const url = process.env.REACT_APP_API_URL || undefined;
+    if (!url) throw new Error('Could not find API_URL in ENV');
+
     const reqObj: Partial<ILogin> = {
       // FIXME: Fix the informed type problem (allow for generic types)
       username: values.username as string,
@@ -26,7 +29,7 @@ const Registration = () => {
 
     try {
       await axios.post(
-        'https://localhost:7122/login',
+        url,
         JSON.stringify(reqObj),
         {
           method: 'POST',
