@@ -49,7 +49,7 @@ const LabeledInput = ({
         type={type}
         name={name}
         color={color}
-        value={!maskedValue ? '' : maskedValue}
+        value={!maskedValue && maskedValue !== 0 ? '' : maskedValue}
         onChange={onInternalChange}
         onBlur={(e) => { setTouched(true, e); setFocused(false, e); }}
         onFocus={(e) => { setFocused(true, e); }}

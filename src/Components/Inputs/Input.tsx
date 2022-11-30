@@ -45,7 +45,7 @@ const Input = ({
         className={`rounded-sm w-52 h-10 text-gray-800 px-2 ${className}`}
         type={type}
         name={name}
-        value={!maskedValue ? '' : maskedValue}
+        value={!maskedValue && maskedValue !== 0 ? '' : maskedValue}
         onChange={onInternalChange}
         onBlur={(e) => { setTouched(true, e); setFocused(false, e); }}
         onFocus={(e) => { setFocused(true, e); }}
