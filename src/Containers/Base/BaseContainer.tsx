@@ -14,11 +14,11 @@ const BaseContainer = ({ children }: ContainerTypes) => {
 
   const { mode: colorMode } = useColorMode();
   return (
-    <div className={colorMode}>
-      <Navbar />
-      <div className="flex flex-row">
-        <Sidebar />
-        <div className="w-screen px-16 py-6 dark:bg-gray-800 text-gray-800 dark:text-slate-200">
+    <div className={`${colorMode} flex flex-row `}>
+      <Sidebar />
+      <div className="flex flex-col w-screen">
+        <Navbar />
+        <div className="h-full px-16 py-6 dark:bg-gray-800 text-gray-800 dark:text-slate-200">
           {children}
         </div>
       </div>
