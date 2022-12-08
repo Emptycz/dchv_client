@@ -23,7 +23,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='flex flex-row-reverse items-center h-16 bg-red-200 w-100 gap-6 text-gray-800 dark:bg-gray-900 dark:text-slate-200'>
+    <nav className='flex flex-row-reverse items-center h-16 bg-blue-300 w-100 gap-6 text-gray-800 dark:bg-gray-900 dark:text-slate-200'>
       <div className='flex flex-row items-center gap-4 px-8'>
         <span onClick={onSignOut}> Logout </span>
       </div>

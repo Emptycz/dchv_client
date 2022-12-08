@@ -1,8 +1,7 @@
 import { AccountCircle, AssignmentInd, Dashboard, Group, Topic} from '@mui/icons-material';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useCallback, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import './Sidebar.scss';
+import { SidebarContext } from '../../Contexts/SidebarContext';
 
 type RouteType = {
   title: string,
@@ -38,27 +37,80 @@ const adminRoutes = [
   },
 ];
 
-const renderMenuContent = (routes: RouteType[] ) => {
-  const history = useNavigate();
-
+const renderMenuContent = (routes: RouteType[], isExtended = true ) => {
+  const navigate = useNavigate();
   return (
-    <ul className='flex flex-col w-52'>
-      {routes.map((x, index) => (
-        <li className='flex flex-row h-12 hover:bg-blue-200 dark:hover:bg-gray-800 transition duration-200 ease-in-out' key={index}>
-          <a className='cursor-pointer flex flex-grow border-b-2 dark:border-gray-700 w-100 justify-start px-2 items-center' onClick={() => history(x.route)}>
-            <i> {x.icon} </i>
-            <span className='px-2'> {x.title} </span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    <div className='transition duration-200 ease-in-out'>
+      <div className='h-52 flex flex-col justify-center align-middle items-center'>
+        <span className={`${isExtended ? 'text-[45px]' : 'text-[20px]' }`}> DCHV </span>
+        <span className={isExtended ? 'text-sm dark:text-gray-300' : 'hidden'}> Databáze chemických vzorků </span>
+      </div>
+      <ul className={`${isExtended ? 'w-64' : 'w-auto' } flex flex-col`}>
+        {routes.map((x, index) => {
+        // const isActive = activeElement === x.route ? 'bg-red' : null;
+        // console.log(activeElement, 'activeelement');
+        // console.log(isActive, 'isACtive?');
+          return(
+            <li
+              className={`
+                flex
+                flex-row
+                h-12
+                ${isExtended ? 'mx-2' : 'mx-4'}
+                my-2
+                rounded-md
+                hover:bg-blue-200
+                dark:hover:bg-gray-800
+                transition
+                duration-200
+                ease-in-out`
+              }
+              key={index}
+            >
+              <a className={`
+                ${isExtended ? 'w-100' : 'w-auto'}
+                cursor-pointer
+                flex
+                flex-grow
+                justify-start
+                px-2
+                items-center`
+              }
+              onClick={() => navigate(x.route)}>
+                <i className='px-1'> {x.icon} </i>
+                <span className={isExtended ? 'px-2' : 'hidden'}> {x.title} </span>
+              </a>
+            </li>
+          );})}
+      </ul>
+    </div>
   );
 };
 
+
 const Sidebar = () => {
+  const [activeElement, setActiveElement] = useState<string>('');
+  const { isExtended, setIsExtended } = useContext(SidebarContext);
+
   return (
-    <nav className="flex flex-col bg-red-300 w-auto h-screen dark:bg-gray-900 text-gray-800 dark:text-slate-200 border-r-2 dark:border-gray-700">
-      {renderMenuContent(adminRoutes)}
+    <nav className={`
+    ${isExtended ? 'w-auto' : 'w-20'}
+      flex
+      flex-col
+      bg-blue-300
+      h-screen
+      dark:bg-gray-900
+      bg-opacity-80
+      text-gray-800
+      dark:text-slate-200
+      border-r-2
+      dark:border-gray-700
+      shadow-outline
+      transition duration-200 ease-in-out`
+    }
+    >
+      {renderMenuContent(adminRoutes, isExtended)}
+      <button onClick={() => setIsExtended(!isExtended)}> switch </button>
     </nav>
   );
 };

@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Paths from './Routes/Routes';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider } from './Providers/AuthProvider';
+import { SidebarProvider } from './Providers/SidebarProvider';
 
 function App() {
   const queryClient = new QueryClient();
@@ -13,7 +14,9 @@ function App() {
       <div className="app">
         <AuthProvider>
           <BrowserRouter>
-            <Paths />
+            <SidebarProvider>
+              <Paths />
+            </SidebarProvider>
           </BrowserRouter>
         </AuthProvider>
       </div>
