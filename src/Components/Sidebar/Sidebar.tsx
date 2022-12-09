@@ -49,7 +49,7 @@ const renderMenuContent = (routes: RouteType[], isExtended = true ) => {
       </div>
       <ul className={`${isExtended ? 'w-64' : 'w-auto' } flex flex-col`}>
         {routes.map((x, index) => {
-          const isActive = activeRoute === x.route ? 'dark:bg-gray-700' : null;
+          const isActive = activeRoute === x.route ? 'dark:bg-gray-700 bg-blue-300' : null;
           return(
             <li
               className={`
