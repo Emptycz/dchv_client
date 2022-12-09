@@ -1,4 +1,4 @@
-import { AccountCircle, AssignmentInd, Dashboard, Group, Topic} from '@mui/icons-material';
+import { AccountCircle, ArrowCircleLeft, ArrowCircleRight, AssignmentInd, Dashboard, Group, Topic} from '@mui/icons-material';
 import React, { ReactElement, useCallback, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SidebarContext } from '../../Contexts/SidebarContext';
@@ -39,20 +39,21 @@ const adminRoutes = [
 
 const renderMenuContent = (routes: RouteType[], isExtended = true ) => {
   const navigate = useNavigate();
+  const { activeRoute, setActiveRoute } = useContext(SidebarContext);
+
   return (
-    <div className='transition duration-200 ease-in-out'>
-      <div className='h-52 flex flex-col justify-center align-middle items-center'>
+    <div>
+      <div className={`${isExtended ? 'justify-center' : 'justify-top pt-10'} h-52 flex flex-col align-middle items-center`}>
         <span className={`${isExtended ? 'text-[45px]' : 'text-[20px]' }`}> DCHV </span>
         <span className={isExtended ? 'text-sm dark:text-gray-300' : 'hidden'}> Databáze chemických vzorků </span>
       </div>
       <ul className={`${isExtended ? 'w-64' : 'w-auto' } flex flex-col`}>
         {routes.map((x, index) => {
-        // const isActive = activeElement === x.route ? 'bg-red' : null;
-        // console.log(activeElement, 'activeelement');
-        // console.log(isActive, 'isACtive?');
+          const isActive = activeRoute === x.route ? 'dark:bg-gray-700' : null;
           return(
             <li
               className={`
+                ${isActive}
                 flex
                 flex-row
                 h-12
@@ -60,10 +61,7 @@ const renderMenuContent = (routes: RouteType[], isExtended = true ) => {
                 my-2
                 rounded-md
                 hover:bg-blue-200
-                dark:hover:bg-gray-800
-                transition
-                duration-200
-                ease-in-out`
+                dark:hover:bg-gray-800`
               }
               key={index}
             >
@@ -76,7 +74,7 @@ const renderMenuContent = (routes: RouteType[], isExtended = true ) => {
                 px-2
                 items-center`
               }
-              onClick={() => navigate(x.route)}>
+              onClick={() => {setActiveRoute(x.route); navigate(x.route);}}>
                 <i className='px-1'> {x.icon} </i>
                 <span className={isExtended ? 'px-2' : 'hidden'}> {x.title} </span>
               </a>
@@ -89,12 +87,11 @@ const renderMenuContent = (routes: RouteType[], isExtended = true ) => {
 
 
 const Sidebar = () => {
-  const [activeElement, setActiveElement] = useState<string>('');
   const { isExtended, setIsExtended } = useContext(SidebarContext);
 
   return (
     <nav className={`
-    ${isExtended ? 'w-auto' : 'w-20'}
+      ${isExtended ? 'w-auto' : 'w-20'}
       flex
       flex-col
       bg-blue-300
@@ -106,11 +103,14 @@ const Sidebar = () => {
       border-r-2
       dark:border-gray-700
       shadow-outline
-      transition duration-200 ease-in-out`
+      flex-grow
+      justify-between`
     }
     >
       {renderMenuContent(adminRoutes, isExtended)}
-      <button onClick={() => setIsExtended(!isExtended)}> switch </button>
+      <button className='py-8' onClick={() => setIsExtended(!isExtended)}>
+        {!isExtended ? <ArrowCircleRight /> : <ArrowCircleLeft />}
+      </button>
     </nav>
   );
 };

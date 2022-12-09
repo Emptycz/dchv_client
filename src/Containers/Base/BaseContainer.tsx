@@ -18,7 +18,7 @@ const BaseContainer = ({ children }: ContainerTypes) => {
       <Sidebar />
       <div className="flex flex-col w-screen">
         <Navbar />
-        <div className="h-full px-16 py-6 dark:bg-gray-800 text-gray-800 dark:text-slate-200">
+        <div className="h-full px-16 py-6 dark:bg-gray-800 text-gray-800 dark:text-slate-200 transition duration-100 ease-linear">
           {children}
         </div>
       </div>
