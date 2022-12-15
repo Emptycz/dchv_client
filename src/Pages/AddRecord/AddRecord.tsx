@@ -11,6 +11,7 @@ const AddRecord = () => {
   const [file, setFile] = useState<File>();
 
   const history = useNavigate();
+  const axios = useAxios();
 
   const onFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event || !event.target || !event.target.files) return;
@@ -19,7 +20,6 @@ const AddRecord = () => {
 
   const onFormSubmit = async ({ values }: FormState) => {
     if (!values || values.length === 0 || !file) return;
-    const axios = useAxios();
     const formData = new FormData();
     formData.append('file', file);
     // TODO: Modify the FormState type to create a Generic that will allow this natively
