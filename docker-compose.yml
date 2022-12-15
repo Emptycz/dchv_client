@@ -1,6 +1,11 @@
-version: "3"
+version: "3.7"
 services:
-  react-app:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+  app:
+    container_name: app
+    restart: always
+    build: .
+    env_file: .env
+    environment:
+      - PORT=${PORT}
+    ports:
+      - 4000:80
