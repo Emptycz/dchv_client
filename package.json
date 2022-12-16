@@ -19,6 +19,7 @@
     "@types/react-dom": "^18.0.6",
     "axios": "^0.27.2",
     "dotenv": "^16.0.3",
+    "deploy-react": "^2.2.11",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "informed": "^4.29.0",
     "jspreadsheet-ce": "^4.10.2",
