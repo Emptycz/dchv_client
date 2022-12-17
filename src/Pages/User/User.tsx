@@ -15,18 +15,14 @@ type UserProps = {
 
 const User = () => {
   const { loginId } = useParams<UserProps>();
-
   const axios = useAxios();
 
   const { data, isLoading } = useQuery(
     ['FetchProfile', loginId],
-    async () =>{
+    async () => {
       const { data: res } = await axios.get<ILogin>(`/login/${loginId}`);
       return res;
-    },
-    {
-      enabled: !!loginId,
-    }
+    }, { enabled: !!loginId }
   );
 
   if (!data && !isLoading) return <Navigate to='/users' />;
@@ -41,15 +37,14 @@ const User = () => {
           </div>
           <Tabs className='my-10' defaultIndex={0}>
             <StyledTabList>
-              <Tab>Records</Tab>
-              <Tab>Groups</Tab>
+              <Tab className='cursor-pointer'>Records</Tab>
+              <Tab className='cursor-pointer'>Groups</Tab>
             </StyledTabList>
             <TabPanel>
               <div>
                 <RecordList PersonID={data?.persons?.[0].id} />
               </div>
             </TabPanel>
-            <TabPanel></TabPanel>
           </Tabs>
         </>
       )}
