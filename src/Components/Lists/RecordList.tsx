@@ -18,7 +18,7 @@ const RecordList = ({ PersonID }: RecordListParams) => {
   const { data, isLoading, isLoadingError } = useQuery(
     ['FetchRecordsForPerson', PersonID ],
     async () => {
-      const { data: res } = await axios.get<IRecord[]>(`/records?PersonID=${PersonID}`);
+      const { data: res } = await axios.get<IRecord[]>(`/record?PersonID=${PersonID}`);
       return res;
     }
   );
