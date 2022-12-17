@@ -7,7 +7,7 @@ type StyledTabListProps = {
 
 const StyledTabList = ({ children }: StyledTabListProps) => {
   return (
-    <TabList className='flex flex-row gap-10 py-2'>
+    <TabList className='flex flex-row gap-10 py-2 border-b-2 border-gray-600'>
       {children}
     </TabList>
   );
