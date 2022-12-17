@@ -95,8 +95,8 @@ const Sidebar = () => {
       flex
       flex-col
       bg-blue-300
-      h-screen
       dark:bg-gray-900
+      min-h-screen
       bg-opacity-80
       text-gray-800
       dark:text-slate-200
