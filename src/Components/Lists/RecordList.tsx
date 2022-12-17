@@ -15,7 +15,7 @@ const RecordList = ({ PersonID }: RecordListParams) => {
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isLoadingError } = useQuery(
     ['FetchRecordsForPerson', PersonID ],
     async () => {
       const { data: res } = await axios.get<IRecord[]>(`/records?PersonID=${PersonID}`);
@@ -23,30 +23,35 @@ const RecordList = ({ PersonID }: RecordListParams) => {
     }
   );
 
-  return isLoading ? <LoadingCircle show={isLoading} /> : (
-    <table className='w-full'>
-      <thead>
-        <tr className='border-b-2 text-left'>
-          <th className='p-2'> ID </th>
-          <th className='p-2'> Name </th>
-          <th className='p-2'> Created at </th>
-        </tr>
-      </thead>
-      <tbody>
-        {data?.map((x) => (
-          <tr
-            className='even:bg-gray-200 dark:even:bg-gray-700 text-left cursor-pointer'
-            key={x.id}
-          >
-            <td onClick={() => navigate(`/record/${x.id}`)} className='border-b-2 p-2'> {x.id} </td>
-            <td onClick={() => navigate(`/record/${x.id}`)} className='border-b-2 p-2'> {x.name} </td>
-            <td onClick={() => navigate(`/record/${x.id}`)} className='border-b-2 p-2'> {moment(x.created_at).format('DD.MM.YYYY')} </td>
+  return isLoading || isLoadingError ?
+    <LoadingCircle
+      show={isLoading || isLoadingError}
+      message={isLoadingError ?
+        'Client failed to retrieve data: This feature is not implemented yet on API' :
+        undefined}
+    /> : (
+      <table className='w-full'>
+        <thead>
+          <tr className='border-b-2 text-left'>
+            <th className='p-2'> ID </th>
+            <th className='p-2'> Name </th>
+            <th className='p-2'> Created at </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-
+        </thead>
+        <tbody>
+          {data?.map((x) => (
+            <tr
+              className='even:bg-gray-200 dark:even:bg-gray-700 text-left cursor-pointer'
+              key={x.id}
+            >
+              <td onClick={() => navigate(`/record/${x.id}`)} className='border-b-2 p-2'> {x.id} </td>
+              <td onClick={() => navigate(`/record/${x.id}`)} className='border-b-2 p-2'> {x.name} </td>
+              <td onClick={() => navigate(`/record/${x.id}`)} className='border-b-2 p-2'> {moment(x.created_at).format('DD.MM.YYYY')} </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
 };
 
 export default RecordList;
