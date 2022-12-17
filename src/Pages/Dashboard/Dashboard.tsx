@@ -13,7 +13,7 @@ const Dashboard = () => {
         <div className='flex flex-col gap-10'>
           <h1 className='border-b-1'> Quick actions </h1>
           <div className='flex flex-row gap-10'>
-            <QuickActionBox label='New record' />
+            <QuickActionBox label='New record' onClick={() => history('/records/add')} />
             <QuickActionBox label='Show records' onClick={() => history('/records')} />
           </div>
         </div>
