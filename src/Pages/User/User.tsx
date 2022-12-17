@@ -5,6 +5,9 @@ import RecordList from '../../Components/Lists/RecordList';
 import BaseContainer from '../../Containers/Base/BaseContainer';
 import useAxios from '../../Hooks/Axios.hook';
 import { ILogin } from '../../types';
+import LoadingCircle from '../../Components/Spinners/LoadingCircle';
+import { Tab, TabPanel, Tabs } from 'react-tabs';
+import StyledTabList from '../../Components/Tabs/StyledTabList';
 
 type UserProps = {
   loginId: string;
@@ -15,7 +18,7 @@ const User = () => {
 
   const axios = useAxios();
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['FetchProfile', loginId],
     async () =>{
       const { data: res } = await axios.get<ILogin>(`/login/${loginId}`);
@@ -26,15 +29,30 @@ const User = () => {
     }
   );
 
-  if (!data) return <Navigate to='/users' />;
+  if (!data && !isLoading) return <Navigate to='/users' />;
 
   return (
     <BaseContainer>
-      <h1> {data?.username} </h1>
-      {}
-      <div>
-        <RecordList PersonID={data.persons?.[0].id} />
-      </div>
+      {isLoading ? <LoadingCircle show={isLoading} message="Loading user details  " /> : (
+        <>
+          <h1> {`${data?.persons?.[0].firstname} ${data?.persons?.[0].lastname}`} </h1>
+          <div className='h-52 bg-red-800'>
+            <span> account details </span>
+          </div>
+          <Tabs className='my-10' defaultIndex={0}>
+            <StyledTabList>
+              <Tab>Records</Tab>
+              <Tab>Groups</Tab>
+            </StyledTabList>
+            <TabPanel>
+              <div>
+                <RecordList PersonID={data?.persons?.[0].id} />
+              </div>
+            </TabPanel>
+            <TabPanel></TabPanel>
+          </Tabs>
+        </>
+      )}
     </BaseContainer>
   );
 };
