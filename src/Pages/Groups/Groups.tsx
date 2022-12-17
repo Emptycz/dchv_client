@@ -44,7 +44,7 @@ const Groups = () => {
 
   return (
     <BaseContainer>
-      <h1> Your groups </h1>
+      <h1> Groups </h1>
       <div>
         <Button variant='contained' onClick={() => history('/groups/add')}>
           Create new group

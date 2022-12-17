@@ -13,6 +13,7 @@ import Groups from '../Pages/Groups/Groups';
 import Group from '../Pages/Group/Group';
 import Registration from '../Pages/Registration/Registration';
 import ProtectedRoute from './ProtectedRoute';
+import AddGroup from '../Pages/AddGroup/AddGroup';
 
 const Paths = () => {
   return (
@@ -32,6 +33,7 @@ const Paths = () => {
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
       <Route path="/groups" element={<ProtectedRoute><Groups /></ProtectedRoute>} />
+      <Route path="/groups/add" element={<ProtectedRoute><AddGroup /></ProtectedRoute>} />
       <Route path="/group/:groupId" element={<ProtectedRoute><Group /></ProtectedRoute>} />
     </Routes>
   );
