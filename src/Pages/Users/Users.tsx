@@ -7,10 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import BaseContainer from '../../Containers/Base/BaseContainer';
 import useAxios from '../../Hooks/Axios.hook';
 import { ILogin } from '../../types';
+import LoadingCircle from '../../Components/Spinners/LoadingCircle';
 
 const Users = () => {
-  const [users, setUsers] = useState<ILogin[]>([]);
-
   const axios = useAxios();
   const history = useNavigate();
 
@@ -20,11 +19,11 @@ const Users = () => {
 
   const queryClient = useQueryClient();
 
-  useQuery(
+  const { data, isLoading } = useQuery(
     ['getUsers'],
-    async () => {
-      const { data } = await fetchData();
-      setUsers(data);
+    async (): Promise<ILogin[]> => {
+      const { data: res } = await fetchData();
+      return res;
     }
   );
 
@@ -35,8 +34,8 @@ const Users = () => {
   };
 
   const sortData = () => {
-    const recs = users.sort((a, b) => a.username.localeCompare(b.username));
-    setUsers(recs);
+    const recs = data?.sort((a, b) => a.username.localeCompare(b.username));
+    // setUsers(recs);
   };
 
 
@@ -52,36 +51,37 @@ const Users = () => {
           </Button>
         </div>
         <div className='my-10'>
-          <table className='w-full'>
-            <thead>
-              <tr className='border-b-2 text-left'>
-                <th className='p-2'> ID </th>
-                <th className='p-2' onClick={() => sortData()}> Email </th>
-                <th className='p-2'> Created at </th>
-                <th className='p-2'> Operations </th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((x) => (
-                <tr
-                  className='even:bg-gray-200 dark:even:bg-gray-700 text-left cursor-pointer'
-                  key={x.id}
-                >
-                  <td onClick={() => history(`/user/${x.id}`)} className='border-b-2 p-2'> {x.id} </td>
-                  <td onClick={() => history(`/user/${x.id}`)} className='border-b-2 p-2'> {x.username} </td>
-                  <td onClick={() => history(`/user/${x.id}`)} className='border-b-2 p-2'> {moment(x.created_at).format('DD.MM.YYYY')} </td>
-                  <td className='border-b-2 p-2'>
-                    <IconButton>
-                      <BlockOutlined color='warning' />
-                    </IconButton>
-                    <IconButton onClick={async () => await removeUser(x.id)}>
-                      <RemoveCircle color='error' />
-                    </IconButton>
-                  </td>
+          {isLoading ? <LoadingCircle show={isLoading} /> : (
+            <table className='w-full'>
+              <thead>
+                <tr className='border-b-2 text-left'>
+                  <th className='p-2'> ID </th>
+                  <th className='p-2' onClick={() => sortData()}> Email </th>
+                  <th className='p-2'> Created at </th>
+                  <th className='p-2'> Operations </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {data?.map((x) => (
+                  <tr
+                    className='even:bg-gray-200 dark:even:bg-gray-700 text-left cursor-pointer'
+                    key={x.id}
+                  >
+                    <td onClick={() => history(`/user/${x.id}`)} className='border-b-2 p-2'> {x.id} </td>
+                    <td onClick={() => history(`/user/${x.id}`)} className='border-b-2 p-2'> {x.username} </td>
+                    <td onClick={() => history(`/user/${x.id}`)} className='border-b-2 p-2'> {moment(x.created_at).format('DD.MM.YYYY')} </td>
+                    <td className='border-b-2 p-2'>
+                      <IconButton>
+                        <BlockOutlined color='warning' />
+                      </IconButton>
+                      <IconButton onClick={async () => await removeUser(x.id)}>
+                        <RemoveCircle color='error' />
+                      </IconButton>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>)}
         </div>
 
       </div>

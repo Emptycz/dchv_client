@@ -7,28 +7,28 @@ import { useNavigate } from 'react-router-dom';
 import BaseContainer from '../../Containers/Base/BaseContainer';
 import useAxios from '../../Hooks/Axios.hook';
 import { IRecord } from '../../types';
+import LoadingCircle from '../../Components/Spinners/LoadingCircle';
 
 const Records = () => {
-  const [records, setRecords] = useState<IRecord[]>([]);
   const axios = useAxios();
   const history = useNavigate();
 
   const fetchData = async () => {
-    return await axios.get<IRecord[]>('/record');
+    return axios.get<IRecord[]>('/record');
   };
 
-  useQuery(
+  const { data, isLoading } = useQuery(
     ['fetchRecords'],
-    async () => {
-      const { data } = await fetchData();
-      setRecords(data);
+    async (): Promise<IRecord[]> => {
+      const { data: recs } = await fetchData();
+      return recs;
     }
   );
 
   const sortData = () => {
-    const recs = records.sort((a, b) => a.name.localeCompare(b.name));
+    const recs = data?.sort((a, b) => a.name.localeCompare(b.name));
     console.log(recs);
-    setRecords(recs);
+    // data = recs;
   };
 
   return (
@@ -40,7 +40,7 @@ const Records = () => {
         </Button>
       </div>
       <div className='my-10'>
-        <table className='w-full'>
+        {isLoading ? <LoadingCircle show={isLoading} /> : (<table className='w-full'>
           <thead>
             <tr className='border-b-2 text-left'>
               <th className='p-2'> ID </th>
@@ -51,7 +51,7 @@ const Records = () => {
             </tr>
           </thead>
           <tbody>
-            {records.map((x) => (
+            {data?.map((x) => (
               <tr
                 className='even:bg-gray-200 dark:even:bg-gray-700 text-left cursor-pointer'
                 key={x.id}
@@ -71,7 +71,7 @@ const Records = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>)}
       </div>
     </BaseContainer>
   );

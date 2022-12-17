@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../Hooks/Axios.hook';
 import { IRecord } from '../../types';
+import LoadingCircle from '../Spinners/LoadingCircle';
 
 type RecordListParams = {
   PersonID: number,
@@ -14,15 +15,15 @@ const RecordList = ({ PersonID }: RecordListParams) => {
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['FetchRecordsForPerson', PersonID ],
     async () => {
-      const { data: res } = await axios.get<IRecord[]>('/records');
+      const { data: res } = await axios.get<IRecord[]>(`/records?PersonID=${PersonID}`);
       return res;
     }
   );
 
-  return (
+  return isLoading ? <LoadingCircle show={isLoading} /> : (
     <table className='w-full'>
       <thead>
         <tr className='border-b-2 text-left'>
