@@ -38,12 +38,11 @@ const User = () => {
           <Tabs className='my-10' defaultIndex={0}>
             <StyledTabList>
               <Tab className='cursor-pointer'>Records</Tab>
-              <Tab className='cursor-pointer'>Groups</Tab>
+              <Tab className='cursor-pointer'>Owned groups</Tab>
+              <Tab className='cursor-pointer'>Part of groups</Tab>
             </StyledTabList>
             <TabPanel>
-              <div>
-                <RecordList PersonID={data?.persons?.[0].id} />
-              </div>
+              <RecordList PersonID={data?.persons?.[0].id} />
             </TabPanel>
           </Tabs>
         </>
