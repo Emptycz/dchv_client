@@ -27,7 +27,7 @@ const AddRecord = () => {
     if (!values.name || typeof values.name !== 'string') return;
     formData.append('name', values?.name);
     try {
-      return await axios.post<IRecord>('/record', formData);
+      await axios.post<IRecord>('/record', formData);
     } catch (err) {
       throw new Error(String(err));
     }
