@@ -6,7 +6,7 @@ import { Dna } from 'react-loader-spinner';
 
 // TODO: Refactor this to TS
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, react/prop-types
-const Jspreadsheet = ({ data, minDimensions }) => {
+const Jspreadsheet = ({ data, minDimensions, isError }) => {
   const [loading, setLoading] = useState(true);
   const jRef = useRef(null);
 
@@ -35,7 +35,7 @@ const Jspreadsheet = ({ data, minDimensions }) => {
             wrapperStyle={{}}
             wrapperClass="dna-wrapper"
           />
-          <span> Recreating file... </span>
+          <span> {isError ? 'Server was unable to retrieve and format the CSV data' : 'Recreating file...'} </span>
         </div>
       ) : (
         <>

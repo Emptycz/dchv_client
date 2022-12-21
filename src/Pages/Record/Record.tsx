@@ -6,6 +6,7 @@ import { IRecord, IRecordData } from '../../types';
 
 import './Record.scss';
 import Jspreadsheet from '../../Components/Spreadsheet/Jspreadsheet';
+import { Dna } from 'react-loader-spinner';
 
 type RecordProps = {
   recordId: string,
@@ -25,18 +26,13 @@ const Record = () => {
     history('/records');
   }
 
-  const [tableData, setTableData] = useState<Array<string[]>>([]);
-
   const axios = useAxios();
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['getRecordDetail', recordId],
     async () => {
-      const { data: record }: { data: IRecord } = await axios.get<IRecord>(`/record/${recordId}`);
-      setTableData(getSpreadsheetData(record.data));
+      const { data: record } = await axios.get<IRecord>(`/record/${recordId}`);
       return record;
-    }, {
-      refetchOnWindowFocus: false,
     }
   );
 
@@ -63,14 +59,12 @@ const Record = () => {
     return rows;
   }, []);
 
+  const formatedData = getSpreadsheetData(data?.data);
+
   return (
     <>
-      { !tableData ? 'loading...' : (
-        <>
-          <h1> {data?.name} </h1>
-          <Jspreadsheet data={tableData} minDimensions={[30, 30]} />
-        </>
-      ) }
+      <h1> {data?.name} </h1>
+      <Jspreadsheet isError={!isLoading && !data?.data.length} data={formatedData} minDimensions={[30, 30]} />
     </>
   );
 };
