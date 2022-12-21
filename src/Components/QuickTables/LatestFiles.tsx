@@ -12,7 +12,7 @@ const LatestFiles = () => {
   const { data, isLoading } = useQuery(
     ['fetchLatestRecords'],
     async (): Promise<IRecord[]> => {
-      const { data: res } = await axios.get<IRecord[]>('/record');
+      const { data: res } = await axios.get<IRecord[]>('/record?limit=5');
       return res;
     },
   );
