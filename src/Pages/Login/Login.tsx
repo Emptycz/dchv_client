@@ -13,33 +13,11 @@ const Login = () => {
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
-  const onSubmit = async ({ values }: FormState) => {
-    if (!values || values.length === 0) return;
-    const url = process.env.REACT_APP_API_URL + '/Auth' || undefined;
-    if (!url) throw new Error('Could not find API_URL in ENV');
-
-    const response = await axios.post(url, JSON.stringify(values), {
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    }).catch((err: AxiosError) => {
-      setAlert('Chybné přihlašovací údaje');
-      if (err.code === '404') {
-        //TODO: Show error message (), user not found
-      }
-      throw new Error(err.message);
-    });
-    signIn(response?.data.persons[0], response?.data.token);
-
-    navigate('/dashboard');
-    return;
-  };
-
   return (
     <div className='login'>
       <Card className='login__card' variant='outlined'>
         <h1> Přihlášení do systému </h1>
-        <Form className='login__card__form' onSubmit={(e) => onSubmit(e)}>
+        <Form className='login__card__form' onSubmit={(e) => navigate('/dashboard')}>
           <LabeledInput required className='login__card__form__input' label="Email" variant="outlined" name="username" type="email" />
           <LabeledInput required className='login__card__form__input' name="password" variant="outlined" label='Heslo' type="password" />
           {!alert ? '' : (
