@@ -3,8 +3,21 @@ import BaseContainer from '../../Containers/Base/BaseContainer';
 import { Form } from 'informed';
 import AddGroupForm from './AddGroupForm';
 import { Button } from '@mui/material';
+import { useQuery } from 'react-query';
+import { IPersonGroup } from '../../types';
+import useAxios from '../../Hooks/Axios.hook';
 
 const AddGroup = () => {
+  const axios = useAxios();
+
+  const groups = useQuery(
+    ['FetchAllPersonGroups'],
+    async () => {
+      const { data: res } = await axios.get<IPersonGroup>('/personGroup');
+      return res;
+    }
+  );
+
   const onSubmit = () => {
 
   };
