@@ -1,7 +1,8 @@
 {
-  "name": "dchv-fe",
+  "name": "dchv-client",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ete89e.pef.czu.cz/zs2223/03/",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
