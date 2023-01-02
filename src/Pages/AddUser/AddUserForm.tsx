@@ -7,7 +7,7 @@ const AddUserForm = () => (
       <p> Login informations: </p>
       <div className='flex max-lg:flex-col flex-row gap-5'>
         <LabeledInput required className='lg:w-96' label="Email" name="username" type="email" />
-        <LabeledInput required className='lg:w-96' name="password" label='Heslo' type="password" />
+        <LabeledInput required className='lg:w-96' name="password" label='Password' type="password" />
       </div>
     </div>
     <div className='flex flex-col gap-2'>

@@ -40,7 +40,7 @@ const AddUser = () => {
         {/* FIXME: Remove the <h1> out of the <form> */}
         <h1> Create new account </h1>
         <AddUserForm />
-        <Checkbox label='Verified' name='verified_at' />
+        <Checkbox label='User is verified' name='verified_at' />
         {!alert ? '' : (
           <Alert className='login__card__form__alert' severity='error'>
             {alert}

@@ -36,7 +36,7 @@ const Records = () => {
       <h1> Records </h1>
       <div>
         <Button variant='contained' onClick={() => history('/records/add')}>
-          Import file
+          Add Record
         </Button>
       </div>
       <div className='my-10'>
