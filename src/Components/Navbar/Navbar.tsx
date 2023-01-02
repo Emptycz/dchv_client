@@ -1,5 +1,5 @@
-import { DarkMode, LightMode } from '@mui/icons-material';
-import { Avatar } from '@mui/material';
+import { DarkMode, LightMode, Logout } from '@mui/icons-material';
+import { Avatar, Button } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <nav className='flex flex-row-reverse items-center h-16 bg-blue-300 w-100 gap-6 text-gray-800 dark:bg-gray-900 dark:text-slate-200'>
       <div className='flex flex-row items-center gap-4 px-8'>
-        <span onClick={onSignOut}> Logout </span>
+        <Button onClick={onSignOut}> <Logout /> Logout </Button>
       </div>
       <div className='flex flex-row items-center gap-4 px-8'>
         <span className='font-bold'> {user?.firstname} {user?.lastname} </span>
