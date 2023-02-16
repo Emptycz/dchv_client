@@ -6,9 +6,17 @@ import BaseContainer from '../../Containers/Base/BaseContainer';
 import { AddBox, Topic } from '@mui/icons-material';
 
 import './Dashboard.scss';
+import useAuth from '../../Hooks/Auth.hook';
+import { isAdmin } from '../../Utils/Auth.utils';
 
 const Dashboard = () => {
   const history = useNavigate();
+  const { user } = useAuth();
+
+  if (!user) {
+    history('/login');
+    return null;
+  }
 
   return (
     <BaseContainer>
@@ -17,7 +25,11 @@ const Dashboard = () => {
           <h1 className='border-b-1'> Quick actions </h1>
           <div className='flex flex-row gap-10'>
             <QuickActionBox className='flex' icon={<AddBox className='extra_large_icon' />} label='New record' onClick={() => history('/records/add')} />
-            <QuickActionBox className='flex' label='Show records' icon={<Topic className='extra_large_icon' />} onClick={() => history('/records')} />
+            {isAdmin(user) ? (
+              <QuickActionBox className='flex' label='Show records' icon={<Topic className='extra_large_icon' />} onClick={() => history('/records')} />
+            ) : (
+              <QuickActionBox className='flex' label='Show records' icon={<Topic className='extra_large_icon' />} onClick={() => history('/filespace')} />
+            )}
           </div>
         </div>
         <div className='flex flex-row gap-10'>

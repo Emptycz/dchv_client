@@ -7,9 +7,12 @@ import BaseContainer from '../../Containers/Base/BaseContainer';
 import useAxios from '../../Hooks/Axios.hook';
 import { IRecord } from '../../types';
 import AddRecordForm from './AddRecordForm';
+import useAuth from '../../Hooks/Auth.hook';
+import { isAdmin } from '../../Utils/Auth.utils';
 
 const AddRecord = () => {
   const [file, setFile] = useState<File>();
+  const { user } = useAuth();
 
   const onFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event || !event.target || !event.target.files) return;
@@ -19,6 +22,7 @@ const AddRecord = () => {
   const axios = useAxios();
 
   const onFormSubmit = async ({ values }: FormState) => {
+    if (!user) return;
     if (!values || values.length === 0 || !file) return;
     const formData = new FormData();
     formData.append('file', file);
@@ -31,7 +35,8 @@ const AddRecord = () => {
     } catch (err) {
       throw new Error(String(err));
     }
-    history('/records');
+    if (isAdmin(user)) return history('/records');
+    return history('/filespace');
   };
 
   return (

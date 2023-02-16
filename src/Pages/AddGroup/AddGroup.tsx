@@ -18,8 +18,8 @@ const AddGroup = () => {
     }
   );
 
-  const onSubmit = () => {
-
+  const onSubmit = (e: any) => {
+    console.log(e);
   };
 
   return (

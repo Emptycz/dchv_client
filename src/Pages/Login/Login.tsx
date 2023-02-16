@@ -23,9 +23,11 @@ const Login = () => {
         'Content-Type': 'application/json; charset=utf-8'
       }
     }).catch((err: AxiosError) => {
-      setAlert('Chybné přihlašovací údaje');
-      if (err.code === '404') {
-        //TODO: Show error message (), user not found
+      console.log(err, 'err');
+      if (err?.response?.status === 404) {
+        setAlert('Incorrect credentials');
+      } else {
+        setAlert('Cannot reach the API server');
       }
       throw new Error(err.message);
     });
@@ -38,17 +40,18 @@ const Login = () => {
   return (
     <div className='login'>
       <Card className='login__card' variant='outlined'>
-        <h1> Přihlášení do systému </h1>
+        <h1> Login to system </h1>
         <Form className='login__card__form' onSubmit={(e) => onSubmit(e)}>
           <LabeledInput required className='login__card__form__input' label="Email" variant="outlined" name="username" type="email" />
-          <LabeledInput required className='login__card__form__input' name="password" variant="outlined" label='Heslo' type="password" />
+          <LabeledInput required className='login__card__form__input' name="password" variant="outlined" label='Password' type="password" />
           {!alert ? '' : (
             <Alert className='login__card__form__alert' severity='error'>
               {alert}
             </Alert>
           )}
-          <Button className='login__card__form__btn' variant='contained' type="submit"> Přihlásit se </Button>
+          <Button className='login__card__form__btn' variant='contained' type="submit"> Sign in </Button>
         </Form>
+        <span className='mt-6'> Do you already have an account? <a className='text-blue-500' href="/registration"> Sign in </a></span>
       </Card>
     </div>
   );

@@ -7,6 +7,8 @@ import { IRecord, IRecordData } from '../../types';
 import './Record.scss';
 import Jspreadsheet from '../../Components/Spreadsheet/Jspreadsheet';
 import { Dna } from 'react-loader-spinner';
+import BaseContainer from '../../Containers/Base/BaseContainer';
+import FilespaceContainer from '../../Containers/Filespace/FilespaceContainer';
 
 type RecordProps = {
   recordId: string,
@@ -62,10 +64,13 @@ const Record = () => {
   const formatedData = getSpreadsheetData(data?.data);
 
   return (
-    <>
+    <FilespaceContainer title={!data ? 'Loading...' : data.name}>
       <h1> {data?.name} </h1>
-      <Jspreadsheet isError={!isLoading && !data?.data.length} data={formatedData} minDimensions={[30, 30]} />
-    </>
+      <Jspreadsheet
+        isError={!isLoading && !data?.data.length}
+        data={formatedData}
+        minDimensions={[49, 40]} />
+    </FilespaceContainer>
   );
 };
 

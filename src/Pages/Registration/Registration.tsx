@@ -49,14 +49,14 @@ const Registration = () => {
   };
 
   return (
-    <Form onSubmit={onSubmit} className='flex flex-col justify-center items-center'>
+    <Form onSubmit={onSubmit} className='flex gap-6 flex-col justify-center items-center h-screen'>
+      <h1> Create new account </h1>
       <RegistrationForm />
       {!alert ? '' : (
         <Alert severity='error'>
           {alert}
         </Alert>
       )}
-
       <Button variant='contained' type="submit"> Create new account </Button>
     </Form>
   );

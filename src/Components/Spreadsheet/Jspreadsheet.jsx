@@ -14,7 +14,14 @@ const Jspreadsheet = ({ data, minDimensions, isError }) => {
     // eslint-disable-next-line react/prop-types
     if (!jRef.current.jspreadsheet && (Array.isArray(data) && data.length !== 0 )) {
       console.log('init jspreadsheet');
-      jspreadsheet(jRef.current, { data, minDimensions});
+      jspreadsheet(jRef.current, {
+        data,
+        minDimensions,
+        toolbar: true,
+        onchange: (e) => console.log(e, 'kek'),
+        oneditionend: (e) => console.log(e, 'haf:'),
+        onsave: (e) => console.log(e, 'save'),
+      });
       setLoading(false);
     }
   }, [data]);
@@ -24,7 +31,7 @@ const Jspreadsheet = ({ data, minDimensions, isError }) => {
   };
 
   return (
-    <div className='flex flex-col justify-start items-start'>
+    <div className='flex flex-col justify-start items-start text-gray-800'>
       {loading ? (
         <div className='flex flex-col items-center self-center justify-center'>
           <Dna

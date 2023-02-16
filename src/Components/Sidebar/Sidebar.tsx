@@ -2,6 +2,8 @@ import { AccountCircle, ArrowCircleLeft, ArrowCircleRight, AssignmentInd, Dashbo
 import React, { ReactElement, useCallback, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SidebarContext } from '../../Contexts/SidebarContext';
+import useAuth from '../../Hooks/Auth.hook';
+import { isAdmin } from '../../Utils/Auth.utils';
 
 type RouteType = {
   title: string,
@@ -24,6 +26,29 @@ const adminRoutes = [
     title:'Records',
     icon: <Topic />,
     route:'/records'
+  },
+  {
+    title:'Profile',
+    icon: <AccountCircle />,
+    route:'/profile'
+  },
+  {
+    title:'Groups',
+    icon: <Group />,
+    route:'/groups'
+  },
+];
+
+const userRoutes = [
+  {
+    title:'Dashboard',
+    icon: <Dashboard />,
+    route:'/dashboard'
+  },
+  {
+    title:'Filespace',
+    icon: <Topic />,
+    route:'/filespace'
   },
   {
     title:'Profile',
@@ -87,7 +112,14 @@ const renderMenuContent = (routes: RouteType[], isExtended = true ) => {
 
 
 const Sidebar = () => {
+  const { user } = useAuth();
   const { isExtended, setIsExtended } = useContext(SidebarContext);
+  const history = useNavigate();
+
+  if (!user) {
+    history('/login');
+    return null;
+  }
 
   return (
     <nav className={`
@@ -107,7 +139,7 @@ const Sidebar = () => {
       justify-between`
     }
     >
-      {renderMenuContent(adminRoutes, isExtended)}
+      {isAdmin(user) ? renderMenuContent(adminRoutes, isExtended) : renderMenuContent(userRoutes, isExtended)}
       <button className='py-8' onClick={() => setIsExtended(!isExtended)}>
         {!isExtended ? <ArrowCircleRight /> : <ArrowCircleLeft />}
       </button>

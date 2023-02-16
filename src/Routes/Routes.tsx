@@ -14,15 +14,20 @@ import Group from '../Pages/Group/Group';
 import Registration from '../Pages/Registration/Registration';
 import ProtectedRoute from './ProtectedRoute';
 import AddGroup from '../Pages/AddGroup/AddGroup';
+import { IRole } from '../types';
+import Filespace from '../Pages/Filespace/Filespace';
 
 const Paths = () => {
   return (
     <Routes>
+
       <Route path="/" element={<Login />} />
       <Route path="/registration" element={<Registration />} />
 
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-      <Route path="/records" element={<ProtectedRoute><Records /></ProtectedRoute>} />
+
+      <Route path="/records" element={<ProtectedRoute role={{name: 'admin'} as IRole}><Records /></ProtectedRoute>} />
+      <Route path="/filespace" element={<ProtectedRoute><Filespace /></ProtectedRoute>} />
       <Route path="/records/add" element={<ProtectedRoute><AddRecord /></ProtectedRoute>} />
       <Route path="/record/:recordId" element={<ProtectedRoute><Record /></ProtectedRoute>} />
 

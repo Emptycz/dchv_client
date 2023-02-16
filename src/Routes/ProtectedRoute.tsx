@@ -12,7 +12,7 @@ const ProtectedRoute: React.FC<ProtectedRouteType> = ({ role, children }) => {
   const { user } = useAuth();
 
   // TODO: We want to check if two arrays have at least 1 role in common
-  if (role && !user?.roles?.some((x) => x.name === role.name)) return (<Navigate to="/" />);
+  if (role && !user?.roles?.some((x) => x.name.toLowerCase() === role.name.toLowerCase())) return (<Navigate to="/" />);
 
   if (!user || !user.id) return (<Navigate to="/" />);
   return (

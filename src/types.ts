@@ -50,11 +50,21 @@ export interface IRecordData extends IBaseModel {
 export interface IRecord extends IBaseModel {
   id: number,
   personID: number,
-
   name: string,
   data: IRecordData[],
 
-  person?: IPerson;
+  person?: IPerson,
+}
+
+export interface IRecordGroup extends IBaseModel {
+  id: number,
+  recordGroupID?: number,
+  personID: number,
+  name: string,
+
+  person?: IPerson,
+  groups?: IRecordGroup[],
+  records?: IRecord[],
 }
 
 export interface IPersonGroup extends IBaseModel {
@@ -65,6 +75,11 @@ export interface IPersonGroup extends IBaseModel {
 
   person?: IPerson,
   members?: IPerson[],
+}
+
+export interface IRecordCanvas {
+  records: IRecord[],
+  groups: IRecordGroup[],
 }
 
 interface IBaseModel {

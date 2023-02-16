@@ -2,19 +2,17 @@ import React from 'react';
 import LabeledInput from '../../Components/Inputs/LabeledInput';
 import AddUserForm from '../AddUser/AddUserForm';
 
-const RegistrationForm = () => {
+type RegistrationFormProps = {
+  className?: string,
+}
+
+const RegistrationForm = ({
+  className
+}: RegistrationFormProps) => {
   return (
-    <>
+    <div className={className}>
       <AddUserForm />
-      <div className='flex flex-col gap-5'>
-        <span> Heslo </span>
-        <LabeledInput
-          className='lg:w-96'
-          type="password"
-          label='Password'
-          name="password"
-          required
-        />
+      <div className='flex flex-col gap-5 mt-6'>
         <LabeledInput
           className='lg:w-96'
           name="repassword"
@@ -23,7 +21,7 @@ const RegistrationForm = () => {
           required
         />
       </div>
-    </>
+    </div>
   );
 };
 
