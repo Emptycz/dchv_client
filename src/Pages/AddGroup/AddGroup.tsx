@@ -1,25 +1,32 @@
 import React from 'react';
 import BaseContainer from '../../Containers/Base/BaseContainer';
-import { Form } from 'informed';
+import { Form, FormState } from 'informed';
 import AddGroupForm from './AddGroupForm';
 import { Button } from '@mui/material';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { IPersonGroup } from '../../types';
 import useAxios from '../../Hooks/Axios.hook';
 
 const AddGroup = () => {
   const axios = useAxios();
 
-  const groups = useQuery(
-    ['FetchAllPersonGroups'],
-    async () => {
-      const { data: res } = await axios.get<IPersonGroup>('/personGroup');
+  const { mutateAsync: addPersonGroup } = useMutation(
+    ['AddPersonGroup'],
+    async (data: string | FormData): Promise<IPersonGroup> => {
+      const { data: res } = await axios.post<IPersonGroup>('/personGroup', data);
       return res;
     }
   );
 
-  const onSubmit = (e: any) => {
-    console.log(e);
+  const onSubmit = async ({ values }: FormState) => {
+    let data = values;
+    if (values.members && Array.isArray(values.members)) {
+      data = {
+        ...values,
+        members: values.members.map((x: {id: number, name: string}) => ({personID: x.id}))
+      };
+    }
+    await addPersonGroup(JSON.stringify(data));
   };
 
   return (

@@ -16,7 +16,7 @@ const BaseContainer = ({ children }: ContainerTypes) => {
   return (
     <div className={`${colorMode} flex flex-row `}>
       <Sidebar />
-      <div className="flex flex-col w-screen">
+      <div className="flex flex-col max-lg:w-100 w-screen">
         <Navbar />
         <div className="h-full px-16 py-6 dark:bg-gray-800 text-gray-800 dark:text-slate-200 transition duration-200 ease-linear">
           {children}

@@ -23,7 +23,7 @@ const Groups = () => {
     ['fetchPersonGroups'],
     async (): Promise<IPersonGroup[]> => {
       const { data: res } = await fetchData();
-      return res;
+      return res || [];
     }
   );
 

@@ -1,15 +1,17 @@
 import React from 'react';
-import Select from './Select';
 import { useMutation, useQuery } from 'react-query';
 import { IPerson } from '../../types';
 import useAxios from '../../Hooks/Axios.hook';
+import SearchSelect from './SearchSelect';
 
-type PersonSelectProps = {
+interface PersonSelectProps {
   name: string,
+  className?: string,
 }
 
 const PersonSelect = ({
   name,
+  className
 }: PersonSelectProps) => {
 
   const axios = useAxios();
@@ -33,9 +35,12 @@ const PersonSelect = ({
   };
 
   return (
-    <Select
+    <SearchSelect
       name={name}
-      options={data?.map((x) => ({ value: x.id, label: `${x.firstname} ${x.lastname}` }))}
+      className={className}
+      options={data?.map((x) => ({ id: x.id, name: `${x.firstname} ${x.lastname}` })) || []}
+      placeholder='Uživatel'
+      onSearch={(e) => console.log(e)}
     />
   );
 };
