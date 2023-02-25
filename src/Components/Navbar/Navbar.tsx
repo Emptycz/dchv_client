@@ -28,11 +28,10 @@ const Navbar = () => {
         <Button onClick={onSignOut}> <Logout /> Logout </Button>
       </div>
       <div className='flex flex-row items-center gap-4 px-8'>
-        <span className='font-bold'> {user?.firstname} {user?.lastname} </span>
         <Avatar sx={{ bgcolor: deepOrange[500] }}> {user?.firstname?.[0]}{user?.lastname?.[0]} </Avatar>
+        <span className='font-bold'> {user?.firstname} {user?.lastname} </span>
       </div>
       <ul className='flex flex-row gap-5'>
-        <li> Notifications </li>
         <li>
           <button onClick={() => invertColorMode()}>
             {colorMode === 'light' ?

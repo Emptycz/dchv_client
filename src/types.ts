@@ -67,6 +67,15 @@ export interface IRecordGroup extends IBaseModel {
   records?: IRecord[],
 }
 
+export interface IPersonGroupRelation {
+  id: number,
+  personID: number,
+  personGroupID: number,
+
+  person?: IPerson,
+  group?: IPersonGroup,
+}
+
 export interface IPersonGroup extends IBaseModel {
   id: number,
   name: string,
@@ -74,7 +83,7 @@ export interface IPersonGroup extends IBaseModel {
   person_id: number,
 
   person?: IPerson,
-  members?: IPerson[],
+  members?: IPersonGroupRelation[],
 }
 
 export interface IRecordCanvas {

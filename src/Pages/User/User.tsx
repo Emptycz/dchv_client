@@ -32,9 +32,9 @@ const User = () => {
       {isLoading ? <LoadingCircle show={isLoading} message="Loading user details  " /> : (
         <>
           <h1> {`${data?.persons?.[0].firstname} ${data?.persons?.[0].lastname}`} </h1>
-          {/* <div className='h-52 bg-red-800'>
+          <div className='h-52 bg-red-800'>
             <span> account details </span>
-          </div> */}
+          </div>
           <Tabs className='my-10' defaultIndex={0}>
             <StyledTabList>
               <Tab className='cursor-pointer'>Records</Tab>

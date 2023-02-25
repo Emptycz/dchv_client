@@ -3,11 +3,11 @@ import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import BaseContainer from '../../Containers/Base/BaseContainer';
 import useAxios from '../../Hooks/Axios.hook';
-import { IPerson, IPersonGroup } from '../../types';
+import { IPerson, IPersonGroup, IPersonGroupRelation } from '../../types';
 
-const renderMembers = (members: IPerson[]) => {
+const renderMembers = (members: IPersonGroupRelation[]) => {
   return members.map((x) => (
-    <li key={x.id}> {x.firstname} {x.lastname} </li>
+    <li key={x.id}> {x.person?.firstname} {x.person?.lastname} </li>
   ));
 };
 
