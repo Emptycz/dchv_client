@@ -1,4 +1,4 @@
-import { Alert } from '@mui/material';
+import { Alert, Card } from '@mui/material';
 import Button from '@mui/material/Button/Button';
 import axios from 'axios';
 import { Form, FormState } from 'informed';
@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { setAxiosHeaders } from '../../Hooks/Axios.hook';
 import { ILogin, IPerson } from '../../types';
 import RegistrationForm from './RegistrationForm';
+import LoginContainer from '../../Containers/LoginContainer/LoginContainer';
 
 const Registration = () => {
 
@@ -49,16 +50,23 @@ const Registration = () => {
   };
 
   return (
-    <Form onSubmit={onSubmit} className='flex gap-6 flex-col justify-center items-center h-screen'>
-      <h1> Create new account </h1>
-      <RegistrationForm />
-      {!alert ? '' : (
-        <Alert severity='error'>
-          {alert}
-        </Alert>
-      )}
-      <Button variant='contained' type="submit"> Create new account </Button>
-    </Form>
+    <LoginContainer>
+      <div className='login'>
+        <Card className='login__card' variant='outlined'>
+          <Form onSubmit={onSubmit} className='login__card__form flex gap-6 flex-col justify-center items-center h-screen'>
+            <h1> Create new account </h1>
+            <RegistrationForm />
+            {!alert ? '' : (
+              <Alert severity='error'>
+                {alert}
+              </Alert>
+            )}
+            <Button variant='contained' type="submit"> Create new account </Button>
+            <span className='mt-6'> Do you have account already? <a className='text-blue-500' href="/"> Sign in </a></span>
+          </Form>
+        </Card>
+      </div>
+    </LoginContainer>
   );
 };
 

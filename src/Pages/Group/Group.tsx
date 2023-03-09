@@ -16,7 +16,7 @@ const Group = () => {
   const history = useNavigate();
 
   if (!groupId) {
-    history('/groups');
+    history('/teams');
   }
 
   const axios = useAxios();

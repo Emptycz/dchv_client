@@ -65,7 +65,6 @@ const Record = () => {
 
   return (
     <FilespaceContainer title={!data ? 'Loading...' : data.name}>
-      <h1> {data?.name} </h1>
       <Jspreadsheet
         isError={!isLoading && !data?.data.length}
         data={formatedData}

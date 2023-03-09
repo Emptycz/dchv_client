@@ -1,7 +1,6 @@
 import React from 'react';
 import { IRecord } from '../../types';
 import GenericCard from './GenericCard';
-import { useNavigate } from 'react-router-dom';
 
 type RecordCardProps = {
   record: IRecord;

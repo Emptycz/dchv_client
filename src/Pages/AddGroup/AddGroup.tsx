@@ -4,7 +4,7 @@ import { Form, FormState } from 'informed';
 import AddGroupForm from './AddGroupForm';
 import { Button } from '@mui/material';
 import { useMutation, useQuery } from 'react-query';
-import { IPersonGroup } from '../../types';
+import { IPersonGroup, IPersonGroupRelationsState } from '../../types';
 import useAxios from '../../Hooks/Axios.hook';
 
 const AddGroup = () => {
@@ -23,7 +23,8 @@ const AddGroup = () => {
     if (values.members && Array.isArray(values.members)) {
       data = {
         ...values,
-        members: values.members.map((x: {id: number, name: string}) => ({personID: x.id}))
+        members: values.members.map((x: {id: number, name: string}) =>
+          ({ personID: x.id, state: IPersonGroupRelationsState.WAITING }))
       };
     }
     await addPersonGroup(JSON.stringify(data));
@@ -32,12 +33,11 @@ const AddGroup = () => {
   return (
     <BaseContainer>
       <Form className='flex flex-col gap-5 w-100' onSubmit={onSubmit}>
-        <h1> Create new group </h1>
+        <h1> Create new team </h1>
         <AddGroupForm />
-        <Button className='lg:w-96' variant='contained' type="submit"> Create group </Button>
+        <Button className='lg:w-96' variant='contained' type="submit"> Create team </Button>
       </Form>
     </BaseContainer>
-
   );
 };
 

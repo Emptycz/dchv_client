@@ -27,23 +27,17 @@ const FilespaceNavbar = ({ title }: FilespaceNavbarProps) => {
     return setMode('light');
   };
 
-  const getRouteToRecords = () => {
-    if (!user) return '/filespace';
-    return isAdmin(user) ? '/records' : '/filespace';
-  };
-
   return (
     <nav className='flex py-6 px-8 justify-between flex-row-reverse items-center h-16 bg-blue-300 w-100 gap-6 text-gray-800 dark:bg-gray-900 dark:text-slate-200'>
-      <div className='flex flex-row'>
+      <div className='flex flex-row-reverse items-center'>
         <div className='flex flex-row items-center gap-4 px-8'>
           <Button onClick={onSignOut}> <Logout /> Logout </Button>
         </div>
         <div className='flex flex-row items-center gap-4 px-8'>
-          <span className='font-bold'> {user?.firstname} {user?.lastname} </span>
           <Avatar sx={{ bgcolor: deepOrange[500] }}> {user?.firstname?.[0]}{user?.lastname?.[0]} </Avatar>
+          <span className='font-bold'> {user?.firstname} {user?.lastname} </span>
         </div>
-        <ul className='flex flex-row gap-5'>
-          <li> Notifications </li>
+        <ul className='flex flex-row gap-10'>
           <li>
             <button onClick={() => invertColorMode()}>
               {colorMode === 'light' ?
@@ -55,7 +49,7 @@ const FilespaceNavbar = ({ title }: FilespaceNavbarProps) => {
         </ul>
       </div>
       <div className='flex flex-row gap-6'>
-        <Button onClick={() => navigate(getRouteToRecords())} variant='outlined'> Zpět </Button>
+        <Button onClick={() => navigate(-1)} variant='outlined'> Close file </Button>
         <h2> {title} </h2>
       </div>
     </nav>

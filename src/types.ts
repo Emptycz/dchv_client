@@ -67,13 +67,20 @@ export interface IRecordGroup extends IBaseModel {
   records?: IRecord[],
 }
 
-export interface IPersonGroupRelation {
+export interface IPersonGroupRelation extends IBaseModel {
   id: number,
   personID: number,
   personGroupID: number,
+  state: IPersonGroupRelationsState,
 
   person?: IPerson,
   group?: IPersonGroup,
+}
+
+export const enum IPersonGroupRelationsState {
+  BANNED = 0,
+  WAITING = 1,
+  JOINED = 2,
 }
 
 export interface IPersonGroup extends IBaseModel {

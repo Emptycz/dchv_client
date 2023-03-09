@@ -41,7 +41,8 @@ const AddRecord = () => {
 
   return (
     <BaseContainer>
-      <Form onSubmit={onFormSubmit} name='addRecordForm' className='flex flex-col gap-5 w-100'>
+      <Form onSubmit={onFormSubmit} name='addRecordForm' className='flex flex-col gap-5 w-100 justify-center items-center'>
+        <h2> Create new record </h2>
         <AddRecordForm onFileUpload={onFileUpload} />
         <Button className='lg:w-96' variant='contained' type='submit'> Create record </Button>
       </Form>

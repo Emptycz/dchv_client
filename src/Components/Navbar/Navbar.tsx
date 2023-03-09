@@ -1,5 +1,5 @@
-import { DarkMode, LightMode, Logout } from '@mui/icons-material';
-import { Avatar, Button } from '@mui/material';
+import { CircleNotifications, DarkMode, LightMode, Logout } from '@mui/icons-material';
+import { Avatar, Button, Tooltip } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -31,14 +31,16 @@ const Navbar = () => {
         <Avatar sx={{ bgcolor: deepOrange[500] }}> {user?.firstname?.[0]}{user?.lastname?.[0]} </Avatar>
         <span className='font-bold'> {user?.firstname} {user?.lastname} </span>
       </div>
-      <ul className='flex flex-row gap-5'>
+      <ul className='flex flex-row gap-10'>
         <li>
-          <button onClick={() => invertColorMode()}>
-            {colorMode === 'light' ?
-              <DarkMode className='hover:text-gray-600' />
-              : <LightMode className='hover:text-yellow-300 ' />
-            }
-          </button>
+          <Tooltip title={colorMode === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}>
+            <button onClick={() => invertColorMode()}>
+              {colorMode === 'light' ?
+                <DarkMode className='hover:text-gray-600' />
+                : <LightMode className='hover:text-yellow-300 ' />
+              }
+            </button>
+          </Tooltip>
         </li>
       </ul>
     </nav>

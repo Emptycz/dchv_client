@@ -5,14 +5,16 @@ import useAxios from '../../Hooks/Axios.hook';
 import { IRecord } from '../../types';
 import { ColorRing } from 'react-loader-spinner';
 import LoadingCircle from '../Spinners/LoadingCircle';
+import useAuth from '../../Hooks/Auth.hook';
 
 const LatestFiles = () => {
   const axios = useAxios();
+  const { user } = useAuth();
 
   const { data, isLoading } = useQuery(
     ['fetchLatestRecords'],
     async (): Promise<IRecord[]> => {
-      const { data: res } = await axios.get<IRecord[]>('/record?limit=5');
+      const { data: res } = await axios.get<IRecord[]>(`/record?limit=5&personID=${user?.id}`);
       return res;
     },
   );

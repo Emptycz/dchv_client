@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import LabeledInput from '../../Components/Inputs/LabeledInput';
 import useAuth from '../../Hooks/Auth.hook';
 import './Login.scss';
+import LoginContainer from '../../Containers/LoginContainer/LoginContainer';
 
 const Login = () => {
   const [alert, setAlert] = useState<string | undefined>(undefined);
@@ -38,22 +39,24 @@ const Login = () => {
   };
 
   return (
-    <div className='login'>
-      <Card className='login__card' variant='outlined'>
-        <h1> Login to system </h1>
-        <Form className='login__card__form' onSubmit={(e) => onSubmit(e)}>
-          <LabeledInput required className='login__card__form__input' label="Email" variant="outlined" name="username" type="email" />
-          <LabeledInput required className='login__card__form__input' name="password" variant="outlined" label='Password' type="password" />
-          {!alert ? '' : (
-            <Alert className='login__card__form__alert' severity='error'>
-              {alert}
-            </Alert>
-          )}
-          <Button className='login__card__form__btn' variant='contained' type="submit"> Sign in </Button>
-        </Form>
-        <span className='mt-6'> Do you already have an account? <a className='text-blue-500' href="/registration"> Sign in </a></span>
-      </Card>
-    </div>
+    <LoginContainer>
+      <div className='login'>
+        <Card className='login__card' variant='outlined'>
+          <h1 className='mb-6'> Login to system </h1>
+          <Form className='login__card__form' onSubmit={(e) => onSubmit(e)}>
+            <LabeledInput required className='login__card__form__input' label="Email" variant="outlined" name="username" type="email" />
+            <LabeledInput required className='login__card__form__input' name="password" variant="outlined" label='Password' type="password" />
+            {!alert ? '' : (
+              <Alert className='login__card__form__alert' severity='error'>
+                {alert}
+              </Alert>
+            )}
+            <Button className='login__card__form__btn' variant='contained' type="submit"> Sign in </Button>
+          </Form>
+          <a className='mt-6 text-blue-500' href="/registration"> Create new account </a>
+        </Card>
+      </div>
+    </LoginContainer>
   );
 };
 

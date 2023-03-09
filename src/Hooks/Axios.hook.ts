@@ -43,8 +43,16 @@ const useAxios = () => {
     });
   };
 
+  const patch = <T>(url: string, data: string | FormData, config?: AxiosRequestConfig): Promise<CustomAxiosResponse<T>> => {
+    return axios.patch(baseUrl + url, data, {
+      ...config,
+      method: 'PATCH',
+      headers: setAxiosHeaders(token)
+    });
+  };
+
   // const cannot name 'delete' since delete is reserved keyword
-  const remove = (url: string, config?: AxiosRequestConfig) => {
+  const remove = (url: string, config?: AxiosRequestConfig): Promise<CustomAxiosResponse<boolean>> => {
     return axios.delete(baseUrl + url, {
       ...config,
       method: 'DELETE',
@@ -55,6 +63,7 @@ const useAxios = () => {
   return {
     post,
     get,
+    patch,
     delete: remove,
   };
 };

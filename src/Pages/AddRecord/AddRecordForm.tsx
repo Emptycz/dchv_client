@@ -10,7 +10,7 @@ const AddRecordForm = ({ onFileUpload }: AddRecordFormType) => {
     <>
       <div className='flex flex-col gap-2'>
         <p> Record informations: </p>
-        <div className='flex max-lg:flex-col flex-row gap-5'>
+        <div className='flex max-lg:flex-col flex-col gap-5'>
           <LabeledInput required className='lg:w-96' label='Name of the record' name='name' type='text' />
           <LabeledInput required className='lg:w-96' name="description" label='Description of the record' type="text" />
         </div>
